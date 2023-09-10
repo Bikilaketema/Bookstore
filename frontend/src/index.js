@@ -13,6 +13,7 @@ import AdminLogin from "./pages/AdminLogin";
 import AdminsHome from "./pages/AdminsHome";
 import AddBooks from "./pages/AddBooks";
 import BookDetails from "./pages/BookDetails";
+import UpdateBooks from "./pages/UpdateBooks";
 
 export default function App() {
   return (
@@ -30,7 +31,9 @@ export default function App() {
                   <Route path="admin" element={<AdminLogin />} />
                   <Route path="admin/home" element={<AdminsHome />} />
                   <Route path="admin/books" element={<AddBooks />} />
-                  <Route path="/books/:id" element={<BookDetails />} />
+                  <Route path="/books/detail/:id" element={<BookDetails />} />
+                  <Route path="/admin/books/update/:id" element={<UpdateBooks />} />
+                  <Route path="/admin/books/:id" element={<BookDetails />} />
                   <Route path="*" element={<NoPage />} />
               </Route>
           </Routes>

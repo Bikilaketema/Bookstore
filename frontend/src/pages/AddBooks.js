@@ -1,87 +1,112 @@
-import React from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import { Container, Form, Button, Row, Col } from 'react-bootstrap';
+import React, { useState } from "react";
+import { Button, Form, Container, Row, Col } from "react-bootstrap";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+
+const AddBook = () => {
+  const history = useNavigate();
+  const [inputs, setInputs] = useState({
+    title: "",
+    author:"",
+    genre:"",
+    coverPage:"",
+    price:"",
+    description:""
+  });
 
 
-const labelStyle = {
-  fontSize: '20px',
-};
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setInputs((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
 
-function AddBooks() {
+  const sendRequest = async () => {
+    await axios.post("http://localhost:5000/books", {
+      title: String(inputs.title),
+      author: String(inputs.author),
+      description: String(inputs.description),
+      price: Number(inputs.price),
+      coverPage: String(inputs.coverPage),
+      genre: String(inputs.genre)
+    });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log(inputs);
+    sendRequest().then(() => history("/admin/home"));
+  };
+
   return (
-    <Container
-    style={{
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      backgroundColor: 'skyblue',
-      marginTop: '3%',
-      borderRadius: '20px',
-      padding: '20px',
-      width: '100%',
-      height: '70vh',
-      overflowY: 'auto'
-    }}
-    >
-      <h3 style={{ marginBottom: '2%' }}> Insert book details </h3>
-      <Form>
-        <Row>
-          {/* First Name and Last Name in the same row */}
-          <Col>
-            <Form.Group controlId="title" style={labelStyle}>
+    <Container>
+      <Row className="justify-content-center mt-5">
+        <Col xs={12} md={10}>
+          <Form onSubmit={handleSubmit}>
+            <Form.Group>
               <Form.Label>Title</Form.Label>
-              <Form.Control type="text" placeholder="Enter the books title" />
+              <Form.Control
+                type="text"
+                value={inputs.title}
+                onChange={handleChange}
+                name="title"
+              />
             </Form.Group>
-          </Col>
-          <Col>
-            <Form.Group controlId="genre" style={labelStyle}>
-              <Form.Label>Book genre</Form.Label>
-              <Form.Control type="text" placeholder="Enter the books genre" />
-            </Form.Group>
-          </Col>
-        </Row>
-
-
-        <Row>
-          <Col>
-            <Form.Group controlId="author" style={labelStyle}>
+            <Form.Group>
               <Form.Label>Author</Form.Label>
-              <Form.Control type="text" placeholder="Enter the name of the Author" />
+              <Form.Control
+                type="text"
+                value={inputs.author}
+                onChange={handleChange}
+                name="author"
+              />
             </Form.Group>
-          </Col>
-          <Col>
-            <Form.Group controlId="year" style={labelStyle}>
+            <Form.Group>
               <Form.Label>Description</Form.Label>
-              <Form.Control type="text" placeholder="Enter the books description" />
+              <Form.Control
+                as="textarea"
+                value={inputs.description}
+                onChange={handleChange}
+                name="description"
+              />
             </Form.Group>
-          </Col>
-        </Row>
-
-        {/* Password and Confirm Password in the same row */}
-        <Row>
-          <Col>
-            <Form.Group controlId="cover page" style={labelStyle}>
-              <Form.Label>Cover page URL</Form.Label>
-              <Form.Control type="text" placeholder="Enter the books coverpage URL" />
-            </Form.Group>
-          </Col>
-          <Col>
-            <Form.Group controlId="price" style={labelStyle}>
+            <Form.Group>
               <Form.Label>Price</Form.Label>
-              <Form.Control type="number" placeholder="Enter the books price" />
-
+              <Form.Control
+                type="number"
+                value={inputs.price}
+                onChange={handleChange}
+                name="price"
+              />
             </Form.Group>
-          </Col>
-        </Row>
-        <div className="text-center" >
-              <Button variant="primary" style={{color:'white', marginTop:'8%',marginBottom:'2%'}}>
-              Add book
-              </Button>
-            </div>
-        
-      </Form>
+            <Form.Group>
+              <Form.Label>coverPage</Form.Label>
+              <Form.Control
+                type="text"
+                value={inputs.coverPage}
+                onChange={handleChange}
+                name="coverPage"
+              />
+            </Form.Group>
+            <Form.Group>
+            <Form.Label>Genre</Form.Label>
+            <Form.Control
+              type="text"
+              value={inputs.genre}
+              onChange={handleChange}
+              name="genre"
+            />
+            </Form.Group>
+            <Button variant="primary" type="submit" style={{marginTop:'5%',marginBottom:'5%',width:'100%',height:'7vh'}}>
+              Add Book
+            </Button>
+          </Form>
+        </Col>
+      </Row>
     </Container>
   );
-}
+};
 
-export default AddBooks;
+export default AddBook;
