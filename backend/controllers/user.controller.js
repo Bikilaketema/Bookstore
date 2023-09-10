@@ -62,23 +62,34 @@ const userLogin = catchAsyncErrors(async (req, res, next) => {
   sendToken(res, 200, userExists);
 });
 
-// Get All Users
-const getAllUsers = catchAsyncErrors(async (req, res, next) => {
+// Get User Profile
+const getProfile = catchAsyncErrors(async (req, res, next) => {
   try {
+    // Assuming the user's ID is stored in req.user.id
+    const user = await User.findById(req.user.id);
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
+    }
+
     res.status(200).json({
       success: true,
-      message: "sucess route complete",
+      user,
     });
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: "Error retrieving users",
+      message: "Error retrieving user",
     });
   }
 });
 
+
 module.exports = {
-  getAllUsers,
+  getProfile,
   signUser,
   userLogin,
 };

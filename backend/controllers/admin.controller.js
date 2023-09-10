@@ -49,7 +49,7 @@ const userLogin = catchAsyncErrors(async (req, res, next) => {
   }
 
   // Compare the provided password with the stored password
-  const isPassword = await userExists.comparePassword(password);
+  const isPassword = await adminExists.comparePassword(password);
 
   if (!isPassword) {
     return res.status(401).json({
@@ -59,7 +59,7 @@ const userLogin = catchAsyncErrors(async (req, res, next) => {
   }
 
   // Send token in the response
-  sendToken(res, 200, userExists);
+  sendToken(res, 200, adminExists);
 });
 
 // Get All Users
