@@ -1,74 +1,56 @@
-const AppError = require("../utils/appError");
-const {
-  getAllBooks,
-  createBook,
-  updateBook,
-} = require("../services/book.service");
+const catchAsyncErrors = require("../middleware/catchAsyncError");
+const bookModel = require("../models/bookModel");
 
-module.exports.createBookHandler = async (req, res, next) => {
-  try {
-    // console.log("inside controller");
-    const book = await createBook(
-      {
-        title: req.body.title,
-        author: req.body.author,
-        description: req.body.description,
-        image: req.body.image,
-        isbn: req.body.isbn,
-        publishedDate: new Date(req.body.publishedDate),
-        publisher: req.body.publisher,
-        pageCount: req.body.pageCount,
-        language: req.body.language,
-      },
-      req.body.numBooksAvailable
-    );
-    book.save();
+//get All books
+const getAllbooks = catchAsyncErrors(async (req, res, next) => {
+  const { q, page, limit } = req.query;
 
-    res.status(201).json({
-      message: "Book Created",
-      data: book,
+  // Create an empty filter object
+  let filterObj = {};
+
+  // If the 'q' query parameter is present, add search criteria to the filter object
+  if (q) {
+    const regex = new RegExp(q, "i");
+    filterObj = {
+      $or: [
+        { title: { $regex: regex } },
+        { author: { $regex: regex } },
+        { description: { $regex: regex } },
+      ],
+    };
+  }
+
+  // Query the database using the search criteria
+  const books = await bookModel
+    .find(filterObj)
+    .skip((page - 1) * limit)
+    .limit(limit);
+
+  // Get the total count of  based on the search criteria
+  const bookCount = await bookModel.countDocuments();
+
+  res.status(201).json({ success: true, books, bookCount });
+});
+
+// Get Book Details
+const getBookDetails = catchAsyncErrors(async (req, res, next) => {
+  const book = await bookModel.findById(req.params.id);
+
+  
+  if (!book) {
+    return res.status(404).json({
+      success: false,
+      message: "Book not found",
     });
-  } catch (err) {
-    if (err.code === 11000) {
-      console.log(err);
-      return res.status(409).json({
-        status: "fail",
-        message: "Book already exist, try to edit it.",
-      });
-    }
-    next(err);
   }
-};
 
-module.exports.getAllBookHandler = async (req, res, next) => {
-  try {
-    const books = await getAllBooks();
-    res.status(200).json({ message: "All books fetched", data: books });
-  } catch (error) {
-    console.log(error);
-    next(new AppError(error));
-  }
-};
+  res.status(200).json({
+    success: true,
+    book,
+  });
+});
 
-module.exports.updateBookHandler = async (req, res, next) => {
-  try {
-    const { isbn } = req.body;
-    const payload = req.body;
-
-    const updatedData = await updateBook(isbn, payload);
-
-    res.status(200).json({
-      message: "Book updated",
-      data: updatedData,
-    });
-  } catch (err) {
-    console.log(err);
-    if (err.code === 11000) {
-      return res.status(409).json({
-        status: "fail",
-        message: "Book already exists, try editing it.",
-      });
-    }
-    next(err);
-  }
+module.exports = {
+  getAllbooks,
+  getBookDetails,
 };

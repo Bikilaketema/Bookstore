@@ -1,5 +1,5 @@
 const catchAsyncErrors = require("../middleware/catchAsyncError");
-const User = require("../models/userModel");
+const Admin = require("../models/adminModel");
 const sendToken = require("../utils/jswToken");
 
 // Register User
@@ -14,7 +14,7 @@ const signUser = catchAsyncErrors(async (req, res, next) => {
   }
 
   // Create a new user
-  const user = await User.create({
+  const admin = await Admin.create({
     firstName,
     lastName,
     email,
@@ -24,7 +24,7 @@ const signUser = catchAsyncErrors(async (req, res, next) => {
   });
 
   // Send token in the response
-  sendToken(res, 201, user);
+  sendToken(res, 201, admin);
 });
 
 // Login User
@@ -40,11 +40,11 @@ const userLogin = catchAsyncErrors(async (req, res, next) => {
   }
 
   // Find the user by email
-  const userExists = await User.findOne({ email });
-  if (!userExists) {
+  const adminExists = await Admin.findOne({ email });
+  if (!adminExists) {
     return res.status(401).json({
       success: false,
-      message: "User Not Exists! You have to Sign Up",
+      message: "Admin Not Exists! You have to Sign Up",
     });
   }
 
