@@ -29,18 +29,18 @@ const signUser = catchAsyncErrors(async (req, res, next) => {
 
 // Login User
 const userLogin = catchAsyncErrors(async (req, res, next) => {
-  const { email, password } = req.body;
+  const { identifier, password } = req.body;
 
-  // If Email or Password is not provided
-  if (!email || !password) {
+  // If Identifier or Password is not provided
+  if (!identifier || !password) {
     return res.status(400).json({
       success: false,
-      message: "Please fill in both Email and Password",
+      message: "Please fill in both Identifier and Password",
     });
   }
 
-  // Find the user by email
-  const userExists = await User.findOne({ email });
+  // Find the user by email or username
+  const userExists = await User.findOne({ $or: [{ email: identifier }, { username: identifier }] });
   if (!userExists) {
     return res.status(401).json({
       success: false,
@@ -54,7 +54,7 @@ const userLogin = catchAsyncErrors(async (req, res, next) => {
   if (!isPassword) {
     return res.status(401).json({
       success: false,
-      message: "Invalid Email or Password",
+      message: "Invalid email/username or Password",
     });
   }
 
