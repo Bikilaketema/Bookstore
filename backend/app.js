@@ -20,5 +20,3 @@ mongoose.connect(MONGODB_URI
   ).then(()=> {
     app.listen(5000)
   }).catch((err) => console.log(err));
-
-// Continue with your application setup and logic here
