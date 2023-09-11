@@ -43,12 +43,12 @@ function Login() {
           <Form.Label >
           
           Email | Username</Form.Label>
-          <Form.Control type="text" placeholder="Enter email or username" />
+          <Form.Control type="text" placeholder="Enter email or username" name="identifier" />
         </Form.Group>
 
         <Form.Group controlId="password" style={labelstyle}>
           <Form.Label >Password</Form.Label>
-          <Form.Control type="password" placeholder="Password" />
+          <Form.Control type="password" placeholder="Password" name="password" />
 
           <Button variant="primary" type="submit" style={{
             marginTop:'5%'
