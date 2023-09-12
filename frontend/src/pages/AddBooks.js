@@ -24,7 +24,7 @@ const AddBook = () => {
   };
 
   const sendRequest = async () => {
-    await axios.post("http://localhost:5000/books", {
+    await axios.post("http://localhost:5000/admin/addbook", {
       title: String(inputs.title),
       author: String(inputs.author),
       description: String(inputs.description),
@@ -34,10 +34,24 @@ const AddBook = () => {
     });
   };
 
+  const [error, setError] = useState(""); // State to store error message
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(inputs);
-    sendRequest().then(() => history("/admin/home"));
+    // Check if any of the required fields are empty
+    if (
+      !inputs.title ||
+      !inputs.author ||
+      !inputs.description ||
+      !inputs.price ||
+      !inputs.coverPage ||
+      !inputs.genre
+    ) {
+      setError("Please fill out all fields");
+    } else {
+      setError(""); // Clear any previous error messages
+      sendRequest().then(() => history("/admin/"));
+    }
   };
 
   return (
@@ -45,6 +59,7 @@ const AddBook = () => {
       <Row className="justify-content-center mt-5">
         <Col xs={12} md={10}>
           <Form onSubmit={handleSubmit}>
+          {error && <div className="text-danger">{error}</div>}
             <Form.Group>
               <Form.Label>Title</Form.Label>
               <Form.Control

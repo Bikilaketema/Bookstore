@@ -11,11 +11,11 @@ const Book = (props) => {
 
   const deleteHandler = async () => {
     await axios
-      .delete(`http://localhost:5000/books/${_id}`)
+      .delete(`http://localhost:5000/admin/deletebook/${_id}`)
       .then((res) => res.data)
       .then(() => {
         setIsDeleted(true);
-        history("/admin/home");
+        history("/admin/");
       });
   };
 

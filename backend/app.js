@@ -1,22 +1,27 @@
-const express = require('express');
-const mongoose = require('mongoose');
-require('dotenv').config();
-const { MONGODB_URI } = process.env;
-const router = require('./routes/bookRoutes')
-const cors = require('cors'); // Import the cors package
+const express = require("express");
+const cors = require("cors");
+const userRoutes = require("./routes/user.route");
+const bookRoutes = require("./routes/book.route");
+const adminRoutes = require("./routes/admin.route")
 
 const app = express();
 
-// Enable CORS for all routes
-app.use(cors());
+app.use(
+  cors({
+    origin: "*",
+  })
+);
 
-//middlewares
-app.use(express.json())
-app.use('/books',router);
+app.use(express.json());
 
+// Route for accessing all books
+app.get("/", (req, res) => {
+  res.send("Access all books /book");
+});
 
-mongoose.connect(MONGODB_URI
-  ).then(()=> console.log("Connected to the DB Successfully!")
-  ).then(()=> {
-    app.listen(5000)
-  }).catch((err) => console.log(err));
+/* Import all routes */
+app.use("/user", userRoutes); 
+app.use("/book", bookRoutes); 
+app.use("/admin", adminRoutes);
+
+module.exports = app;

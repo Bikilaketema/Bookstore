@@ -21,7 +21,7 @@ const BookDetails = () => {
     setLoading(true);
   
     axios
-      .get(`http://localhost:5000/books/${id}`)
+      .get(`http://localhost:5000/book/${id}`)
       .then((response) => {
         console.log("Book details response:", response.data);
         setBook(response.data);

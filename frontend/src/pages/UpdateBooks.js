@@ -11,7 +11,7 @@ const UpdateBook = () => {
   useEffect(() => {
     const fetchHandler = async () => {
       await axios
-        .get(`http://localhost:5000/books/${id}`)
+        .get(`http://localhost:5000/book/${id}`)
         .then((res) => res.data)
         .then((data) => setInputs(data.book));
     };
@@ -20,7 +20,7 @@ const UpdateBook = () => {
 
   const sendRequest = async () => {
     await axios
-      .put(`http://localhost:5000/books/${id}`, {
+      .put(`http://localhost:5000/admin/updatebook/${id}`, {
         title: String(inputs.title),
         author: String(inputs.author),
         description: String(inputs.description),
@@ -33,7 +33,7 @@ const UpdateBook = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    sendRequest().then(() => history("/admin/home"));
+    sendRequest().then(() => history("/admin/"));
   };
 
   const handleChange = (e) => {
