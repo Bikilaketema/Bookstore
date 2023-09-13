@@ -70,7 +70,8 @@ userSchema.pre('save', async function(next) {
 
 // Method to generate a JWT token for the user
 userSchema.methods.getjwtToken = function () {
-  return jwt.sign({     id: this._id,
+  return jwt.sign({
+    id: this._id,
     username: this.username,
     email: this.email,
     firstName: this.firstName,

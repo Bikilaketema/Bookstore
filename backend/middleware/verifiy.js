@@ -26,4 +26,23 @@ const authMiddleware = async (req, res, next) => {
   }
 };
 
-module.exports = authMiddleware;
+const verifyToken = (req, res, next) => {
+  const token = req.headers.authorization.split(' ')[1];
+
+  if (!token) {
+    return res.status(401).send('Access denied. No token provided.');
+  }
+
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
+    req.user = decoded;
+    next();
+  } catch (ex) {
+    console.error('Error verifying token:', ex); // Add this line for debugging
+    return res.status(401).send('Invalid token.');
+  }
+};
+
+
+
+module.exports = {authMiddleware, verifyToken}

@@ -19,6 +19,22 @@ const Book = (props) => {
       });
   };
 
+  const addToCartHandler = async () => {
+    try {
+      const response = await axios.post(`http://localhost:5000/cart/${userId}`, {
+        productId: _id, // The book's _id
+        quantity: 1, // You can modify this based on your requirements
+      });
+  
+      // Handle the response as needed (e.g., show a success message)
+      console.log("Added to cart:", response.data);
+    } catch (error) {
+      console.error("Error adding to cart:", error);
+      // Handle errors here
+    }
+  };
+  
+
   const location = useLocation();
   const isAdminRoute = location.pathname.startsWith("/admin");
 
@@ -53,9 +69,15 @@ const Book = (props) => {
 
         {!isAdminRoute && (
           <>
-            <Button variant="primary" className="mt-auto" style={{ marginBottom: "2%" }}>
-              Add to cart
-            </Button>
+          <Button
+          variant="primary"
+          className="mt-auto"
+          style={{ marginBottom: "2%" }}
+          onClick={addToCartHandler} // Call the addToCartHandler function
+        >
+          Add to cart
+        </Button>
+        
             <Button
               as={Link}
               to={`/books/detail/${_id}`} // Link to the book detail page

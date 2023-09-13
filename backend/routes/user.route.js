@@ -1,6 +1,6 @@
 const express = require("express");
-const { getProfile, signUser, userLogin, userLogout } = require("../controllers/user.controller");
-const authMiddleware = require('../middleware/verifiy');
+const { getProfile, signUser, userLogin, } = require("../controllers/user.controller");
+const { authMiddleware } = require('../middleware/verifiy');
 
 // Create an instance of Express Router for user routes
 const userRoutes = express.Router();
