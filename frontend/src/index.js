@@ -1,19 +1,19 @@
 import ReactDOM from "react-dom/client";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import Header from "./pages/Header";
-import Home from "./pages/Home";
-import Dashboard from "./pages/Dashboard";
-import Login from "./pages/Login";
+import Header from "./components/navBar";
+import Home from "./userPages/Home";
+import Dashboard from "./userPages/Dashboard";
+import Login from "./userPages/Login";
 import NoPage from "./pages/NoPage";
 import About from "./pages/About";
-import Signup from "./pages/Signup";
-import Cart from "./pages/Cart";
+import Signup from "./userPages/Signup";
+import Cart from "./userPages/Cart";
 import Books from "./pages/Books";
-import AdminLogin from "./pages/AdminLogin";
-import AdminsHome from "./pages/AdminsHome";
-import AddBooks from "./pages/AddBooks";
+import AdminLogin from "./adminPages/AdminLogin";
+import AdminsHome from "./adminPages/AdminsHome";
+import AddBooks from "./adminPages/AddBooks";
 import BookDetails from "./pages/BookDetails";
-import UpdateBooks from "./pages/UpdateBooks";
+import UpdateBooks from "./adminPages/UpdateBooks";
 import { useLocation } from 'react-router-dom';
 
 export default function App() {

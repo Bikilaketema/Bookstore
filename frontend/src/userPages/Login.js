@@ -51,7 +51,7 @@ function Login() {
       if (response.status === 200) {
         // Successful user login, store the JWT token in local storage
         localStorage.setItem('userToken', data.token); // Use a different key for user token
-        navigate('/dashboard');
+        navigate('/books');
       } else {
         setError(data.message);
       }

@@ -9,11 +9,21 @@ const Home = () => {
     width: '100%',
     height: '100vh'
   };
+
+  function isUserAuthenticated() {
+    const userToken = localStorage.getItem("userToken");
+    return userToken !== null;
+  }
     
-      const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const handleExploreClick = () => {
+
+    if (isUserAuthenticated) {
+      navigate('/books')
+    } else {
     navigate('/login');
+    }
   };
 
     return( 

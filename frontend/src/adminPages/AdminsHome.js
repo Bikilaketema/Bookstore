@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Container, Row, Col, Card } from "react-bootstrap"; // Import React Bootstrap components
-import Book from "./Book";
+import Book from "../pages/Book";
 
 const URL = "http://localhost:5000/book";
 

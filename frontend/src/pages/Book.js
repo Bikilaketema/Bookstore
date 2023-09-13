@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { Button, Card } from "react-bootstrap";
+import { Button, Card, Alert } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 
@@ -19,21 +19,41 @@ const Book = (props) => {
       });
   };
 
-  const addToCartHandler = async () => {
+  const [showAlert, setShowAlert] = useState(false);
+
+  const addBookToCart = async () => {
+    
+    // Get the user ID from local storage
+    const userToken = localStorage.getItem("userToken");
+    const userId = userToken ? JSON.parse(atob(userToken.split(".")[1])).id : null;
+
+    // Check if the user is authenticated
+    if (!userId) {
+      // You can handle this case by redirecting to the login page or displaying a message.
+      console.error("User is not authenticated");
+      return;
+    }
+
     try {
-      const response = await axios.post(`http://localhost:5000/cart/${userId}`, {
-        productId: _id, // The book's _id
-        quantity: 1, // You can modify this based on your requirements
-      });
-  
-      // Handle the response as needed (e.g., show a success message)
-      console.log("Added to cart:", response.data);
+      const response = await axios.post(
+        `http://localhost:5000/cart/${userId}`, // Backend route
+        {
+          productId: _id, // The book's ID
+          quantity: 1, 
+        }
+      );
+      // Handle the response from the backend, e.g., show a success message
+      console.log("Book added to cart:", response.data);
+
+      setShowAlert(true);
+
+      // You can also redirect the user to the cart page or display a message here
     } catch (error) {
-      console.error("Error adding to cart:", error);
-      // Handle errors here
+      console.error("Error adding book to cart:", error);
+      // Handle the error, e.g., display an error message to the user
     }
   };
-  
+
 
   const location = useLocation();
   const isAdminRoute = location.pathname.startsWith("/admin");
@@ -49,6 +69,13 @@ const Book = (props) => {
         <Card.Title>{title}</Card.Title>
         <Card.Text>Genre: {genre}</Card.Text>
         <Card.Title>Price: Rs {price}</Card.Title>
+                    {/* Display the alert when showAlert is true */}
+                    {showAlert && (
+                      <Alert variant="success" onClose={() => setShowAlert(false)} dismissible>
+                        Product added to cart!
+                      </Alert>
+                    )}
+                    {/* ... (remaining code) */}
 
         {isAdminRoute && (
           <>
@@ -69,15 +96,10 @@ const Book = (props) => {
 
         {!isAdminRoute && (
           <>
-          <Button
-          variant="primary"
-          className="mt-auto"
-          style={{ marginBottom: "2%" }}
-          onClick={addToCartHandler} // Call the addToCartHandler function
-        >
-          Add to cart
-        </Button>
-        
+            <Button variant="primary" className="mt-auto" style={{ marginBottom: "2%" }} onClick={addBookToCart}>
+              Add to cart
+            </Button>
+
             <Button
               as={Link}
               to={`/books/detail/${_id}`} // Link to the book detail page

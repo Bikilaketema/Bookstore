@@ -39,6 +39,7 @@ const addCartItem = catchAsyncErrors(async (req, res) => {
   
       const price = book.price;
       const name = book.title;
+      const coverPage = book.coverPage;
   
       if (cart) {
         let itemIndex = cart.items.findIndex((p) => p.productId == productId);
@@ -48,7 +49,7 @@ const addCartItem = catchAsyncErrors(async (req, res) => {
           productItem.quantity += quantity;
           cart.items[itemIndex] = productItem;
         } else {
-          cart.items.push({ productId, name, quantity, price });
+          cart.items.push({ productId, name,coverPage, quantity, price });
         }
         cart.bill += quantity * price;
         cart = await cart.save();
@@ -57,7 +58,7 @@ const addCartItem = catchAsyncErrors(async (req, res) => {
       } else {
         const newCart = await Cart.create({
           userId,
-          items: [{ productId, name, quantity, price }],
+          items: [{ productId, name,coverPage, quantity, price }],
           bill: quantity * price,
         });
         console.log("New cart created:", newCart);

@@ -9,6 +9,9 @@ const CartSchema = new Schema({
         productId: {
             type: String,
         },
+        coverPage : {
+            type: String
+        },
         name: String,
         quantity: {
             type: Number,
