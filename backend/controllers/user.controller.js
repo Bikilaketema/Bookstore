@@ -1,6 +1,7 @@
 const catchAsyncErrors = require("../middleware/catchAsyncError");
 const User = require("../models/userModel");
 const sendToken = require("../utils/jswToken");
+const bcrypt = require("bcrypt");
 
 // Register User
 const signUser = catchAsyncErrors(async (req, res, next) => {
@@ -13,19 +14,40 @@ const signUser = catchAsyncErrors(async (req, res, next) => {
     });
   }
 
-  // Create a new user
-  const user = await User.create({
-    firstName,
-    lastName,
-    email,
-    username,
-    password,
-    confirmPassword
-  });
+  if (password !== confirmPassword) {
+    return res.status(400).json({
+      success: false,
+      message: "Passwords do not match",
+    });
+  }
 
-  // Send token in the response
-  sendToken(res, 201, user);
+  try {
+    // Generate a salt
+    const salt = await bcrypt.genSalt();
+
+    // Hash the password along with the salt
+    const hashedPassword = await bcrypt.hash(password, salt);
+
+    // Create a new user with the hashed password
+    const user = await User.create({
+      firstName,
+      lastName,
+      email,
+      username,
+      password: hashedPassword, // Store the hashed password
+    });
+
+    // Send token in the response
+    sendToken(res, 201, user);
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: "Error creating the user",
+      error: error.message,
+    });
+  }
 });
+
 
 // Login User
 const userLogin = catchAsyncErrors(async (req, res, next) => {
@@ -49,9 +71,9 @@ const userLogin = catchAsyncErrors(async (req, res, next) => {
   }
 
   // Compare the provided password with the stored password
-  const isPassword = await userExists.comparePassword(password);
+  const isPasswordMatch = await bcrypt.compare(password, userExists.password);
 
-  if (!isPassword) {
+  if (!isPasswordMatch) {
     return res.status(401).json({
       success: false,
       message: "Invalid email/username or Password",
