@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { Outlet, useLocation } from 'react-router-dom';
+import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { Button } from 'react-bootstrap';
 import { FaShoppingCart, FaInfoCircle, FaHome, FaTachometerAlt, FaKey, FaBook, FaPlusCircle, FaSignOutAlt, FaUser, FaEnvelope } from 'react-icons/fa';
-import { useNavigate } from 'react-router-dom';
 import jwt_decode from 'jwt-decode'; // You'll need to install this library
 
 

@@ -2,12 +2,18 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import jwt_decode from "jwt-decode";
 import { Container, Row, Col, Card, Button } from "react-bootstrap";
+import { useNavigate } from 'react-router-dom';
 
 const Cart = () => {
   const [cartItems, setCartItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [cartEmptyMessage, setCartEmptyMessage] = useState(null);
+  
+  const updateCartItems = (items) => {
+    setCartItems(items);
+    localStorage.setItem("cartItems", JSON.stringify(items));
+  };
 
   useEffect(() => {
     const userToken = localStorage.getItem("userToken");
@@ -31,7 +37,9 @@ const Cart = () => {
         } else if (data.items.length === 0) {
           setCartEmptyMessage("Your cart is empty");
         } else {
+          
           setCartItems(data.items);
+          updateCartItems(data.items);
         }
         setLoading(false);
       })
@@ -52,6 +60,7 @@ const Cart = () => {
       .then((response) => {
         const updatedCart = response.data;
         setCartItems(updatedCart.items);
+        updateCartItems(updatedCart.items);
       })
       .catch((error) => {
         console.error(error);
@@ -61,6 +70,13 @@ const Cart = () => {
   // Function to calculate the total price
   const calculateTotalPrice = () => {
     return cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
+  };
+
+    
+  const navigate = useNavigate();
+
+  const handleCheckoutClick = () => {
+    navigate('/checkout');
   };
 
   return (
@@ -113,7 +129,7 @@ const Cart = () => {
                     ))}
                     <h5 className="text-center" style={{ fontSize: "1.8rem" }}>Total Price: ${calculateTotalPrice()}</h5>
                     <div className="text-center mt-3">
-                      <Button variant="primary">Checkout</Button>
+                      <Button variant="primary" onClick={handleCheckoutClick}>Checkout</Button>
                     </div>
                   </div>
                 )}

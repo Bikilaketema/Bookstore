@@ -14,6 +14,7 @@ import AdminsHome from "./adminPages/AdminsHome";
 import AddBooks from "./adminPages/AddBooks";
 import BookDetails from "./pages/BookDetails";
 import UpdateBooks from "./adminPages/UpdateBooks";
+import Checkout from "./userPages/Checkout";
 import { useLocation } from 'react-router-dom';
 
 export default function App() {
@@ -52,14 +53,15 @@ export default function App() {
           <Route index element={<Home />} />
           <Route path="/home" element={<Home />} />
           <Route path="/dashboard" element={<ProtectedRoute element={<Dashboard />} />} />
-          <Route path="login" element={<Login />} />
-          <Route path="about" element={<About />} />
-          <Route path="signup" element={<Signup />} />
-          <Route path="cart" element={<ProtectedRoute element={<Cart />} />} />
-          <Route path="books" element={<ProtectedRoute element={<Books />} />} />
-          <Route path="admin/login" element={<AdminLogin />} />
-          <Route path="admin/" element={<ProtectedRoute element={<AdminsHome />} />} />
-          <Route path="admin/books" element={<ProtectedRoute element={<AddBooks />} />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/cart" element={<ProtectedRoute element={<Cart />} />} />
+          <Route path="/checkout" element={<ProtectedRoute element={<Checkout />} />} />
+          <Route path="/books" element={<ProtectedRoute element={<Books />} />} />
+          <Route path="/admin/login" element={<AdminLogin />} />
+          <Route path="/admin/" element={<ProtectedRoute element={<AdminsHome />} />} />
+          <Route path="/admin/books" element={<ProtectedRoute element={<AddBooks />} />} />
           <Route path="/books/detail/:id" element={<ProtectedRoute element={<BookDetails />} />} />
           <Route path="/admin/books/update/:id" element={<ProtectedRoute element={<UpdateBooks />} />} />
           <Route path="/admin/books/:id" element={<ProtectedRoute element={<BookDetails />} />} />
