@@ -10,17 +10,30 @@ const fetchHandler = async () => {
 };
 
 const Books = () => {
-  const [books, setBooks] = useState();
+  const [books, setBooks] = useState([]);
+  const [loading, setLoading] = useState(true); // Add loading state
 
   useEffect(() => {
-    fetchHandler().then((data) => setBooks(data.books));
+    fetchHandler()
+      .then((data) => {
+        setBooks(data.books);
+        setLoading(false); // Set loading to false when data is fetched
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+        setLoading(false); // Set loading to false in case of an error
+      });
   }, []);
 
   return (
     <Container>
-      <Row>
-        {books &&
-          books.map((book, i) => (
+      {loading ? ( // Render loading message while data is being fetched
+      <div style={{textAlign: "center"}}>
+      <h3>Loading...</h3>
+    </div>
+      ) : (
+        <Row>
+          {books.map((book, i) => (
             <Col key={i} xs={12} sm={6} md={4} lg={3}>
               <Card>
                 <Card.Body>
@@ -29,7 +42,8 @@ const Books = () => {
               </Card>
             </Col>
           ))}
-      </Row>
+        </Row>
+      )}
     </Container>
   );
 };

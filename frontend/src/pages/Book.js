@@ -68,7 +68,7 @@ const Book = (props) => {
         <Card.Text>By {author}</Card.Text>
         <Card.Title>{title}</Card.Title>
         <Card.Text>Genre: {genre}</Card.Text>
-        <Card.Title>Price: Rs {price}</Card.Title>
+        <Card.Title>Price: ETB {price}</Card.Title>
                     {/* Display the alert when showAlert is true */}
                     {showAlert && (
                       <Alert variant="success" onClose={() => setShowAlert(false)} dismissible>
