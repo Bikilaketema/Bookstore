@@ -108,6 +108,23 @@ const Header = () => {
   
     navigate('/admin/login'); // Redirect to the admin login page
   };
+  
+
+  const token = localStorage.getItem("userToken");
+  let userData = null; // Declare userData outside of the if block
+  
+  if (token) {
+    // Token is present, continue to the next line of code or perform actions
+    const decoded = jwt_decode(token);
+  
+    userData = {
+      username: decoded.username,
+      email: decoded.email,
+      firstName: decoded.firstName,
+      lastName: decoded.lastName,
+    };
+  } 
+  
 
   return (
     <>
@@ -147,9 +164,6 @@ const Header = () => {
 
           {!isAdminRoute && isUserAuthenticated && (
             <>
-              <li style={listyle}>
-                <Button onClick={handleHomeClick}> <FaHome /> Home</Button>
-              </li>
 
               <li style={listyle}>
                 <Button onClick={handleBooksClick}> <FaBook /> Books </Button>
@@ -161,6 +175,10 @@ const Header = () => {
 
               <li style={listyle}>
                 <Button onClick={handleCartClick}> <FaShoppingCart /> Your Cart </Button>
+              </li>
+
+              <li style={listyle} >
+                <Button > <FaUser /> {userData.firstName} {userData.lastName}  </Button>
               </li>
 
               <li style={listyle}>

@@ -3,36 +3,13 @@ import jwt_decode from "jwt-decode";
 import axios from "axios";
 import { Container, Row, Col, Button } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
-
+import { useNavigate } from 'react-router-dom';
 
 const UserDashboard = () => {
-  const [user, setUser] = useState(null);
+  
   const [userBooks, setUserBooks] = useState([]);
   const [booksData, setBooksData] = useState([]);
-
-  useEffect(() => {
-    const token = localStorage.getItem("userToken");
-
-    if (!token) {
-      console.error("User token not found in localStorage");
-      return;
-    }
-
-    const decoded = jwt_decode(token);
-
-    const userData = {
-      username: decoded.username,
-      email: decoded.email,
-      firstName: decoded.firstName,
-      lastName: decoded.lastName,
-    };
-
-    setUser(userData);
-  }, []);
-
-  const updateUserBooks = (books) => {
-    setUserBooks(books);
-  };
+  const [loading, setLoading] = useState(true);
 
   const fetchBooksData = () => {
     // Fetch all books data from the server
@@ -42,12 +19,15 @@ const UserDashboard = () => {
         const data = response.data;
         if (data.success && Array.isArray(data.books)) {
           setBooksData(data.books);
+          setLoading(false);
         } else {
           console.error("Books data is not an array:", data);
+          setLoading(false);
         }
       })
       .catch((error) => {
         console.error("Error fetching books data:", error);
+        setLoading(false);
       });
   };
 
@@ -65,11 +45,13 @@ const UserDashboard = () => {
           console.error(data.error);
         } else {
           // Update the user books state with the latest data
-          updateUserBooks(data.books || []);
+          setUserBooks(data.books || []);
+          setLoading(false);
         }
       })
       .catch((error) => {
         console.error(error);
+        setLoading(false);
       });
   }, []);
 
@@ -77,6 +59,12 @@ const UserDashboard = () => {
     // Fetch books data when the component mounts
     fetchBooksData();
   }, []);
+
+  const navigate = useNavigate();
+
+  const handleBuy = () => {
+    navigate('/books');
+  };
 
   const handleDeleteBook = (bookId) => {
     const userToken = localStorage.getItem("userToken");
@@ -89,96 +77,104 @@ const UserDashboard = () => {
         const data = response.data;
         if (data.success) {
           // Remove the deleted bookId from the userBooks state immediately
-          const updatedUserBooks = userBooks.filter((id) => id !== bookId);
-          updateUserBooks(updatedUserBooks);
-          console.log("Book deleted successfully");
-        } else {
-          console.error("Failed to delete book:", data.error);
+          setUserBooks((prevUserBooks) => prevUserBooks.filter((id) => id !== bookId));
         }
       })
       .catch((error) => {
         console.error("Error deleting book:", error);
       });
+
   };
   
+
 
   return (
     <Container>
       <Row>
-        {/* Left Column: User Information */}
-        <Col md={4}>
-          <h2>User Dashboard</h2>
-          {user && (
-            <div>
-              <h3>User Information</h3>
-              <p><strong>Username:</strong> {user.username}</p>
-              <p><strong>Email:</strong> {user.email}</p>
-              <p><strong>Full Name:</strong> {user.firstName} {user.lastName}</p>
-            </div>
-          )}
-        </Col>
-
         {/* Right Column: User Books */}
-        <Col md={8}>
-        <h3>Your Books</h3>
-        <ul className="list-unstyled">
-          {userBooks.map((userBookId, index) => {
-            const book = booksData.find((bookData) => bookData._id === userBookId);
-            const listItemStyle = {
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-              margin: "10px 0",
-              position: "relative", // Add this to position the button relative to the list item
-            };
-            const imageStyle = {
-              Width: "120px",
-              maxHeight: "80px",
-              marginRight:"2%"
-            };
-            const titleStyle = {
-              overflow: "hidden",
-              textOverflow: "ellipsis",
-              whiteSpace: "nowrap",
-              flex: "1", // Allow the title to take available space
-            };
-            const buttonStyle = {
-              position: "absolute",
-              right: "0",
-              top: "50%",
-              transform: "translateY(-50%)",
-            };
-
-            return (
-              <li key={index} style={listItemStyle}>
-                <div style={{ display: "flex", alignItems: "center" }}>
-                  <img
-                    src={book ? book.coverPage : ""}
-                    alt={book ? book.title : ""}
-                    className="img-thumbnail mr-3"
-                    style={imageStyle}
-                  />
-                  <p className="mb-0" style={titleStyle}>
-                    {book ? book.title : "Book not found"}
-                  </p>
-                </div>
-                <div style={buttonStyle}>
-                  <Button
-                    variant="danger"
-                   onClick={() => handleDeleteBook(book._id)}
-                  >
-                    Delete
-                  </Button>
-                </div>
-              </li>
-            );
-          })}
-        </ul>
-      </Col>
-    </Row>
+        <Col md={12}>
+    
+          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-start', height: '110vh', maxHeight:"110vh" }}>
+            {loading ? (
+              <div style={{textAlign: "center"}}>
+                <h3>Loading...</h3>
+              </div>
+            ) : userBooks.length === 0 ? (
+              <div style={{display:"flex",flexDirection:"column",justifyConetnt:"center", alignItems: "center"}}>
+                <h4 style={{marginBottom:"10%"}}>You don't have any books. Please buy some.</h4>
+                <Button variant="primary" style={{height:"80px", fontSize:"40px"}} onClick={handleBuy}>Buy Books</Button>
+              </div>
+            ) : (
+              <ul className="list-unstyled">
+              <h3 style={{ textAlign: "center" }}>Your Books</h3>
+              {userBooks.map((userBookId, index) => {
+                const book = booksData.find((bookData) => bookData._id === userBookId);
+                  const listItemStyle = {
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    margin: "10px 0",
+                    position: "relative",
+                    padding: "10px",
+                    borderRadius: "10px",
+                    boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.2)",
+                    backgroundColor: "skyblue",
+                  };
+                  const imageStyle = {
+                    width: "120px",
+                    maxHeight: "80px",
+                    marginRight: "2%",
+                    borderRadius: "5px",
+                  };
+                  const titleStyle = {
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    whiteSpace: "nowrap",
+                    flex: "1",
+                    fontWeight: "bold",
+                    fontSize: "1.2rem",
+                  };
+                  const buttonStyle = {
+                    position: "absolute",
+                    right: "0",
+                    top: "50%",
+                    transform: "translateY(-50%)",
+                    marginRight: "4%"
+                  };
+    
+                  return (
+                    <li key={index} style={listItemStyle}>
+                      <div style={{ display: "flex", alignItems: "center", width:"100%"}}>
+                        <img
+                          src={book ? book.coverPage : ""}
+                          alt={book ? book.title : ""}
+                          className="img-thumbnail mr-3"
+                          style={imageStyle}
+                        />
+                        <div style={{width:"70%"}}>
+                          <p className="mb-0" style={titleStyle}>
+                            {book ? (book.title.length > 80 ? `${book.title.substring(0, 80)}...` : book.title) : "loading"}
+                          </p>
+                        </div>
+                      </div>
+                      <div style={buttonStyle}>
+                        <Button
+                          variant="danger"
+                          onClick={() => handleDeleteBook(book._id)}
+                        >
+                          Delete
+                        </Button>
+                      </div>
+                    </li>
+                  );
+                })}
+              </ul>
+            )}
+          </div>
+        </Col>
+      </Row>
     </Container>
   );
 };
-
 
 export default UserDashboard;
