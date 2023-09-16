@@ -116,7 +116,7 @@ const Cart = () => {
                             <p className="font-weight-bold" style={{ fontSize: "1.2rem", margin: 0, maxWidth: "70%",whiteSpace: "nowrap", fontWeight:'bold'}}>
                               {item.name.length > 80 ? `${item.name.substring(0, 80)}...` : item.name}
                             </p>
-                            <p style={{ fontSize: "1rem" }}>Price: ${item.price}</p>
+                            <p style={{ fontSize: "1rem" }}>Price: ETB {item.price}</p>
                             <div style={{ maxHeight: "60px", overflow: "hidden", fontSize: "1rem" }}>
                               <p>Quantity: {item.quantity}</p>
                             </div>
@@ -127,7 +127,7 @@ const Cart = () => {
                         </div>
                       </div>
                     ))}
-                    <h5 className="text-center" style={{ fontSize: "1.8rem" }}>Total Price: ${calculateTotalPrice()}</h5>
+                    <h5 className="text-center" style={{ fontSize: "1.8rem" }}>Total Price: ETB {calculateTotalPrice()}</h5>
                     <div className="text-center mt-3">
                       <Button variant="primary" onClick={handleCheckoutClick}>Checkout</Button>
                     </div>
