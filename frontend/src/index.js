@@ -10,7 +10,7 @@ import Signup from "./userPages/Signup";
 import Cart from "./userPages/Cart";
 import Books from "./pages/Books";
 import AdminLogin from "./adminPages/AdminLogin";
-import AdminsHome from "./adminPages/AdminsHome";
+//import AdminsHome from "./adminPages/Books";
 import AddBooks from "./adminPages/AddBooks";
 import BookDetails from "./pages/BookDetails";
 import UpdateBooks from "./adminPages/UpdateBooks";
@@ -60,7 +60,7 @@ export default function App() {
           <Route path="/checkout" element={<ProtectedRoute element={<Checkout />} />} />
           <Route path="/books" element={<ProtectedRoute element={<Books />} />} />
           <Route path="/admin/login" element={<AdminLogin />} />
-          <Route path="/admin/" element={<ProtectedRoute element={<AdminsHome />} />} />
+          <Route path="/admin/" element={<ProtectedRoute element={<Books />} />} />
           <Route path="/admin/books" element={<ProtectedRoute element={<AddBooks />} />} />
           <Route path="/books/detail/:id" element={<ProtectedRoute element={<BookDetails />} />} />
           <Route path="/admin/books/update/:id" element={<ProtectedRoute element={<UpdateBooks />} />} />
