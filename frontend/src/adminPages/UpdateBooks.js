@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Button, Form } from "react-bootstrap"; // Import React Bootstrap components
+import { Button, Form } from "react-bootstrap";
 import { useParams, useNavigate } from "react-router-dom";
 
 const UpdateBook = () => {

@@ -1,22 +1,20 @@
 import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import 'bootstrap/dist/js/bootstrap.min.js';
 import { Container, Form, Button } from 'react-bootstrap';
-import { Link } from "react-router-dom";
-import { useNavigate, useLocation } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 
-const labelstyle = {
+const labelStyle = {
   textAlign: 'center',
   fontSize: '20px',
   alignItems: 'center',
-  marginBottom: '8%'
+  marginBottom: '8%',
 };
 
 function Login() {
   const navigate = useNavigate();
   const [credentials, setCredentials] = useState({
     identifier: '',
-    password: ''
+    password: '',
   });
 
   const [error, setError] = useState('');
@@ -25,7 +23,7 @@ function Login() {
     const { id, value } = e.target;
     setCredentials((prevCredentials) => ({
       ...prevCredentials,
-      [id]: value
+      [id]: value,
     }));
   };
 
@@ -33,10 +31,9 @@ function Login() {
     navigate('/signup');
   };
 
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     try {
       const response = await fetch('http://localhost:5000/user/login', {
         method: 'POST',
@@ -45,9 +42,9 @@ function Login() {
         },
         body: JSON.stringify(credentials),
       });
-  
+
       const data = await response.json();
-  
+
       if (response.status === 200) {
         // Successful user login, store the JWT token in local storage
         localStorage.setItem('userToken', data.token); // Use a different key for user token
@@ -59,12 +56,11 @@ function Login() {
       console.error('User Login error:', error);
     }
   };
-  
+
   const location = useLocation();
-    // Extract the success message from the query parameter
-    const queryParams = new URLSearchParams(location.search);
-    const successMessage = queryParams.get('success') || '';
-  
+  // Extract the success message from the query parameter
+  const queryParams = new URLSearchParams(location.search);
+  const successMessage = queryParams.get('success') || '';
 
   return (
     <Container
@@ -88,8 +84,8 @@ function Login() {
         </div>
       )}
       <Form onSubmit={handleSubmit}>
-        <Form.Group controlId="identifier" style={labelstyle}>
-        {error && <div className="text-danger">{error}</div>}
+        <Form.Group controlId="identifier" style={labelStyle}>
+          {error && <div className="text-danger">{error}</div>}
           <Form.Label>Email | Username</Form.Label>
           <Form.Control
             type="text"
@@ -100,7 +96,7 @@ function Login() {
           />
         </Form.Group>
 
-        <Form.Group controlId="password" style={labelstyle}>
+        <Form.Group controlId="password" style={labelStyle}>
           <Form.Label>Password</Form.Label>
           <Form.Control
             type="password"

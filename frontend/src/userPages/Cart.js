@@ -2,81 +2,79 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import jwt_decode from "jwt-decode";
 import { Container, Row, Col, Card, Button } from "react-bootstrap";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
 const Cart = () => {
   const [cartItems, setCartItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [cartEmptyMessage, setCartEmptyMessage] = useState(null);
-  
+
   const updateCartItems = (items) => {
     setCartItems(items);
     localStorage.setItem("cartItems", JSON.stringify(items));
   };
 
   useEffect(() => {
-    const userToken = localStorage.getItem("userToken");
+    const fetchData = async () => {
+      try {
+        const userToken = localStorage.getItem("userToken");
 
-    if (!userToken) {
-      console.error("User token not found in localStorage");
-      setLoading(false);
-      return;
-    }
+        if (!userToken) {
+          console.error("User token not found in localStorage");
+          setLoading(false);
+          return;
+        }
 
-    const decoded = jwt_decode(userToken);
-    const userId = decoded.id;
+        const decoded = jwt_decode(userToken);
+        const userId = decoded.id;
 
-    // Fetch cart items for the specific user
-    axios
-      .get(`http://localhost:5000/cart/${userId}`)
-      .then((response) => {
+        const response = await axios.get(`http://localhost:5000/cart/${userId}`);
         const data = response.data;
+
         if (data.error) {
           setError(data.error);
         } else if (data.items.length === 0) {
           setCartEmptyMessage("Your cart is empty");
         } else {
-          
           setCartItems(data.items);
           updateCartItems(data.items);
         }
         setLoading(false);
-      })
-      .catch((error) => {
-        console.error(error);
+      } catch (error) {
+        console.error("Error fetching data:", error);
         setError("Your cart is empty!");
         setLoading(false);
-      });
+      }
+    };
+
+    fetchData();
   }, []);
 
-  const removeItem = (bookId) => {
-    const userToken = localStorage.getItem("userToken");
-    const decoded = jwt_decode(userToken);
-    const userId = decoded.id;
+  const removeItem = async (bookId) => {
+    try {
+      const userToken = localStorage.getItem("userToken");
+      const decoded = jwt_decode(userToken);
+      const userId = decoded.id;
 
-    axios
-      .delete(`http://localhost:5000/cart/${userId}/${bookId}`)
-      .then((response) => {
-        const updatedCart = response.data;
-        setCartItems(updatedCart.items);
-        updateCartItems(updatedCart.items);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+      const response = await axios.delete(`http://localhost:5000/cart/${userId}/${bookId}`);
+      const updatedCart = response.data;
+
+      setCartItems(updatedCart.items);
+      updateCartItems(updatedCart.items);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
-  // Function to calculate the total price
   const calculateTotalPrice = () => {
     return cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
   };
 
-    
   const navigate = useNavigate();
 
   const handleCheckoutClick = () => {
-    navigate('/checkout');
+    navigate("/checkout");
   };
 
   return (
@@ -84,7 +82,7 @@ const Cart = () => {
       <h4 className="text-center mb-4">Cart</h4>
       <Row>
         <Col xs={12} lg={12}>
-          <Card style={{ padding: "1%",  borderRadius: "10px", boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.2)" }}>
+          <Card style={{ padding: "1%", borderRadius: "10px", boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.2)" }}>
             {loading ? (
               <p>Loading cart items...</p>
             ) : error ? (
@@ -112,8 +110,11 @@ const Cart = () => {
                             className="mr-3"
                             style={{ borderRadius: "5px" }}
                           />
-                          <div className="flex-grow-1" style={{marginLeft:"2%"}}>
-                            <p className="font-weight-bold" style={{ fontSize: "1.2rem", margin: 0, maxWidth: "70%",whiteSpace: "nowrap", fontWeight:'bold'}}>
+                          <div className="flex-grow-1" style={{ marginLeft: "2%" }}>
+                            <p
+                              className="font-weight-bold"
+                              style={{ fontSize: "1.2rem", margin: 0, maxWidth: "70%", whiteSpace: "nowrap", fontWeight: "bold" }}
+                            >
                               {item.name.length > 80 ? `${item.name.substring(0, 80)}...` : item.name}
                             </p>
                             <p style={{ fontSize: "1rem" }}>Price: ETB {item.price}</p>
@@ -123,13 +124,19 @@ const Cart = () => {
                           </div>
                         </div>
                         <div>
-                          <Button variant="danger" className="btn-sm" onClick={() => removeItem(item.bookId)} >Remove</Button>
+                          <Button variant="danger" className="btn-sm" onClick={() => removeItem(item.bookId)}>
+                            Remove
+                          </Button>
                         </div>
                       </div>
                     ))}
-                    <h5 className="text-center" style={{ fontSize: "1.8rem" }}>Total Price: ETB {calculateTotalPrice()}</h5>
+                    <h5 className="text-center" style={{ fontSize: "1.8rem" }}>
+                      Total Price: ETB {calculateTotalPrice()}
+                    </h5>
                     <div className="text-center mt-3">
-                      <Button variant="primary" onClick={handleCheckoutClick}>Checkout</Button>
+                      <Button variant="primary" onClick={handleCheckoutClick}>
+                        Checkout
+                      </Button>
                     </div>
                   </div>
                 )}

@@ -2,8 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { Button } from 'react-bootstrap';
 import { FaShoppingCart, FaInfoCircle, FaHome, FaTachometerAlt, FaKey, FaBook, FaPlusCircle, FaSignOutAlt, FaUser, FaEnvelope } from 'react-icons/fa';
-import jwt_decode from 'jwt-decode'; // You'll need to install this library
-
+import jwt_decode from 'jwt-decode';
 
 const navstyle = {
   backgroundColor: 'skyblue',
@@ -58,14 +57,14 @@ const Header = () => {
   };
 
   const isAdminRoute = location.pathname.startsWith('/admin');
-  const isUserAuthenticated = !!localStorage.getItem('userToken'); // Change this based on where you store the user token
-  const isAdminAuthenticated = !!localStorage.getItem('adminToken'); // Change this based on where you store the admin token
+  const isUserAuthenticated = !!localStorage.getItem('userToken'); 
+  const isAdminAuthenticated = !!localStorage.getItem('adminToken'); 
 
   const handleUserLogout = () => {
-    // Clear the user token from local storage or cookies
-    localStorage.removeItem('userToken'); // If using local storage for user token
+   
+    localStorage.removeItem('userToken'); 
 
-    navigate('/login'); // Redirect to the login page
+    navigate('/login'); 
   };
 
   
@@ -81,7 +80,6 @@ const Header = () => {
     if (adminToken) {
       const decodedAdmin = jwt_decode(adminToken);
 
-      // Set the firstName, lastName, and email in the adminInfo state
       setAdminInfo({
         firstName: decodedAdmin.firstName,
         lastName: decodedAdmin.lastName,
@@ -91,30 +89,29 @@ const Header = () => {
   };
 
   useEffect(() => {
-    // Fetch and update admin information when the component mounts
-    fetchAdminInfo();
+    
   }, []);
 
   useEffect(() => {
     fetchAdminInfo();
-  }, [isAdminAuthenticated]); // Call when isAdminAuthenticated changes
+  }, [isAdminAuthenticated]); 
 
 
   const handleAdminLogout = () => {
-    // Clear the admin token, name, and email from local storage
+    
     localStorage.removeItem('adminToken');
     localStorage.removeItem('adminName');
     localStorage.removeItem('adminEmail');
   
-    navigate('/admin/login'); // Redirect to the admin login page
+    navigate('/admin/login'); 
   };
   
 
   const token = localStorage.getItem("userToken");
-  let userData = null; // Declare userData outside of the if block
+  let userData = null; 
   
   if (token) {
-    // Token is present, continue to the next line of code or perform actions
+    
     const decoded = jwt_decode(token);
   
     userData = {
@@ -148,16 +145,16 @@ const Header = () => {
               </li>
 
               <li style={listyle}>
-                <Button onClick={handleAdminLogout}> <FaSignOutAlt /> Log out </Button>
-              </li>
-
-              <li style={listyle}>
               <Button > <FaUser /> {adminInfo.firstName} {adminInfo.lastName} </Button>
             </li>
 
             <li style={listyle}>
             <Button > <FaEnvelope /> {adminInfo.email} </Button>
           </li>
+
+          <li style={listyle}>
+                <Button onClick={handleAdminLogout}> <FaSignOutAlt /> Log out </Button>
+              </li>
   
             </>
           )}

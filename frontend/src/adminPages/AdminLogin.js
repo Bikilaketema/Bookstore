@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import 'bootstrap/dist/js/bootstrap.min.js';
 import { Container, Form, Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 
@@ -50,7 +49,7 @@ function AdminLogin() {
   
         // Store the new admin's data in local storage
         localStorage.setItem('adminToken', data.token);
-        localStorage.setItem('adminName', data.name); // Replace 'name' with the actual field name containing the admin's name in the response data
+        localStorage.setItem('adminName', data.name); 
         localStorage.setItem('adminEmail', data.email);
   
         navigate('/admin/');

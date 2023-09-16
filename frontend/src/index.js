@@ -1,35 +1,33 @@
-import ReactDOM from "react-dom/client";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import Header from "./components/navBar";
-import Home from "./userPages/Home";
-import Dashboard from "./userPages/Dashboard";
-import Login from "./userPages/Login";
-import NoPage from "./pages/NoPage";
-import About from "./pages/About";
-import Signup from "./userPages/Signup";
-import Cart from "./userPages/Cart";
-import Books from "./pages/Books";
-import AdminLogin from "./adminPages/AdminLogin";
-//import AdminsHome from "./adminPages/Books";
-import AddBooks from "./adminPages/AddBooks";
-import BookDetails from "./pages/BookDetails";
-import UpdateBooks from "./adminPages/UpdateBooks";
-import Checkout from "./userPages/Checkout";
+import ReactDOM from 'react-dom/client';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import Header from './components/navBar';
+import Home from './userPages/Home';
+import Dashboard from './userPages/Dashboard';
+import Login from './userPages/Login';
+import NoPage from './pages/NoPage';
+import About from './pages/About';
+import Signup from './userPages/Signup';
+import Cart from './userPages/Cart';
+import Books from './pages/Books';
+import AdminLogin from './adminPages/AdminLogin';
+import AddBooks from './adminPages/AddBooks';
+import BookDetails from './pages/BookDetails';
+import UpdateBooks from './adminPages/UpdateBooks';
+import Checkout from './userPages/Checkout';
 import { useLocation } from 'react-router-dom';
 
 export default function App() {
-
-  function isUserAuthenticated() {
-    const userToken = localStorage.getItem("userToken");
+  const isUserAuthenticated = () => {
+    const userToken = localStorage.getItem('userToken');
     return userToken !== null;
-  }
+  };
 
-  function isAdminAuthenticated() {
-    const adminToken = localStorage.getItem("adminToken");
+  const isAdminAuthenticated = () => {
+    const adminToken = localStorage.getItem('adminToken');
     return adminToken !== null;
-  }
+  };
 
-  function ProtectedRoute({ element }) {
+  const ProtectedRoute = ({ element }) => {
     const location = useLocation();
     const isAdminRoute = location.pathname.startsWith('/admin');
     const userAuthenticated = isUserAuthenticated();
@@ -44,12 +42,15 @@ export default function App() {
     } else {
       return element;
     }
-  }
+  };
 
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Header />}>
+        <Route
+          path="/"
+          element={<Header />}
+        >
           <Route index element={<Home />} />
           <Route path="/home" element={<Home />} />
           <Route path="/dashboard" element={<ProtectedRoute element={<Dashboard />} />} />
