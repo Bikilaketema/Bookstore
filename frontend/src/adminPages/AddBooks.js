@@ -11,7 +11,8 @@ const AddBook = () => {
     genre:"",
     coverPage:"",
     price:"",
-    description:""
+    description:"",
+    pdfLink: "",
   });
 
 
@@ -30,7 +31,8 @@ const AddBook = () => {
       description: String(inputs.description),
       price: Number(inputs.price),
       coverPage: String(inputs.coverPage),
-      genre: String(inputs.genre)
+      genre: String(inputs.genre),
+      pdfLink: String(inputs.pdfLink)
     });
   };
 
@@ -112,6 +114,15 @@ const AddBook = () => {
               value={inputs.genre}
               onChange={handleChange}
               name="genre"
+            />
+            </Form.Group>
+            <Form.Group>
+            <Form.Label>PDF Link</Form.Label>
+            <Form.Control
+              type="text"
+              value={inputs.pdfLink}
+              onChange={handleChange}
+              name="pdfLink"
             />
             </Form.Group>
             <Button variant="primary" type="submit" style={{marginTop:'5%',marginBottom:'5%',width:'100%',height:'7vh'}}>

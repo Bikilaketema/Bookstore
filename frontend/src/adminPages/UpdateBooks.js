@@ -26,7 +26,8 @@ const UpdateBook = () => {
         description: String(inputs.description),
         price: Number(inputs.price),
         coverPage: String(inputs.coverPage),
-        genre: String(inputs.genre)
+        genre: String(inputs.genre),
+        pdfLink: String(inputs.pdfLink),
       })
       .then((res) => res.data);
   };
@@ -99,6 +100,15 @@ const UpdateBook = () => {
           value={inputs.genre}
           onChange={handleChange}
           name="genre"
+        />
+        </Form.Group>
+        <Form.Group>
+        <Form.Label>PDF Link</Form.Label>
+        <Form.Control
+          type="text"
+          value={inputs.pdfLink}
+          onChange={handleChange}
+          name="pdfLink"
         />
         </Form.Group>
         <Button variant="primary" type="submit" style={{marginTop:'5%',width:'100%',height:'7vh'}}>

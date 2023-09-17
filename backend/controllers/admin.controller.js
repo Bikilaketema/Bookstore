@@ -85,17 +85,18 @@ const getAllUsers = catchAsyncErrors(async (req, res, next) => {
 
 const addBook = async (req,res,next) => {
 
-  const { title, author, genre, coverPage, price,description} = req.body;
+  const { title, author, genre, coverPage, price,description,pdfLink} = req.body;
 
   let book;
   try {
       book = new Book({
-         title,
-         author,
-         genre,
-         coverPage,
-         price,
-         description
+        title,
+        author,
+        genre,
+        coverPage,
+        price,
+        description,
+        pdfLink,
       });
 
       await book.save();
@@ -112,20 +113,20 @@ const addBook = async (req,res,next) => {
 
 const updateBook = async (req,res,next) => {
   const id = req.params.id;
-  const { title, author, genre, coverPage, price,description} = req.body;
+  const { title, author, genre, coverPage, price, description, pdfLink} = req.body;
   let book;
 
   try {
-      book = await Book.findByIdAndUpdate(id,{
-          title,
-          author,
-          genre,
-          coverPage,
-          price,
-          description
+      book = await Book.findByIdAndUpdate(id, {
+        title,
+        author,
+        genre,
+        coverPage,
+        price,
+        description,
+        pdfLink,
       });
-
-      book = await book.save();
+      
   } catch (err) {
       console.log(err);
   }

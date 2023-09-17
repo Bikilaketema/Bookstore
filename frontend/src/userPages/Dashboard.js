@@ -132,17 +132,40 @@ const UserDashboard = () => {
 
                   return (
                     <li key={index} style={listItemStyle}>
-                      <div style={{ display: 'flex', alignItems: 'center', width: '100%' }}>
-                        <img
-                          src={book ? book.coverPage : ''}
-                          alt={book ? book.title : ''}
-                          className="img-thumbnail mr-3"
-                          style={imageStyle}
-                        />
-                        <div style={{ width: '70%' }}>
-                          <p className="mb-0" style={titleStyle}>
-                            {book ? (book.title.length > 80 ? `${book.title.substring(0, 80)}...` : book.title) : 'loading'}
-                          </p>
+                      <div
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          width: "100%",
+                        }}
+                      >
+                        <a
+                          href={book ? book.pdfLink : "#"}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          <img
+                            src={book ? book.coverPage : ""}
+                            alt={book ? book.title : ""}
+                            className="img-thumbnail mr-3"
+                            style={imageStyle}
+                          />
+                        </a>
+                        <div style={{ width: "70%" }}>
+                          <a
+                            href={book ? book.pdfLink : "#"}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            style={{ color: "inherit", textDecoration: "none" }}
+                          >
+                            <p className="mb-0" style={titleStyle}>
+                              {book
+                                ? book.title.length > 80
+                                  ? `${book.title.substring(0, 80)}...`
+                                  : book.title
+                                : "loading"}
+                            </p>
+                          </a>
                         </div>
                       </div>
                       <div style={buttonStyle}>

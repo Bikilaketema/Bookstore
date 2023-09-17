@@ -60,7 +60,7 @@ const checkout = catchAsyncErrors(async (req, res) => {
   
       // Check if the "books" property is empty or not present
       if (!user.books || user.books.length === 0) {
-        return res.status(404).json({ message: "You don't own any book." });
+        return res.status(404).json({ message: "You didnot add any book to a cart." });
       }
   
       // Send just the "books" property as a JSON response
