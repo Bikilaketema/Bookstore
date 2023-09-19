@@ -27,5 +27,6 @@ app.use("/book", bookRoutes);
 app.use("/admin", adminRoutes);
 app.use("/cart", cartRoutes);
 app.use("/checkout", checkoutRoutes);
+app.use("/uploads", express.static("public/uploads"));
 
 module.exports = app;

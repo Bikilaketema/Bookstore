@@ -2,6 +2,7 @@ import ReactDOM from 'react-dom/client';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Header from './components/navBar';
 import Home from './userPages/Home';
+import Profile from "./pages/Profile";
 import Dashboard from './userPages/Dashboard';
 import Login from './userPages/Login';
 import NoPage from './pages/NoPage';
@@ -47,13 +48,11 @@ export default function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route
-          path="/"
-          element={<Header />}
-        >
+        <Route path="/" element={<Header />} >
           <Route index element={<Home />} />
           <Route path="/home" element={<Home />} />
           <Route path="/dashboard" element={<ProtectedRoute element={<Dashboard />} />} />
+          <Route path="/profile" element={<ProtectedRoute element={<Profile />} />} />
           <Route path="/login" element={<Login />} />
           <Route path="/about" element={<About />} />
           <Route path="/signup" element={<Signup />} />

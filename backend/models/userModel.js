@@ -3,7 +3,7 @@ const validator = require("validator");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 
-const expireTime=process.env.JWT_SECRET_KEY_EXPIRE
+const expireTime=process.env.JWT_SECRET_KEY_EXPIRE // 1h
 
 // Define the user schema
 const userSchema = new mongoose.Schema(
@@ -21,6 +21,10 @@ const userSchema = new mongoose.Schema(
       required: [true, "please enter email"],
       unique: true,
       validate: [validator.isEmail, "please enter a valid email"],
+    },
+    profilePicture: {
+      type: String,
+      default: "https://via.placeholder.com/150",
     },
     username: {
       type: String,
@@ -60,6 +64,13 @@ userSchema.methods.getjwtToken = function () {
     }
   );
 };
+
+userSchema.methods.updatePassword = async function (newPassword) {
+  const salt = await bcrypt.genSalt(10);
+  this.password = await bcrypt.hash(newPassword, salt);
+  await this.save();
+};
+
 
 // Create the User model
 const UserModel = mongoose.model("user", userSchema);

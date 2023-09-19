@@ -32,6 +32,10 @@ const Header = () => {
     navigate('/dashboard');
   };
 
+  const handleProfileClick = () => {
+    navigate("/profile");
+  };
+
   const handleLoginClick = () => {
     navigate('/login');
   };
@@ -127,59 +131,95 @@ const Header = () => {
     <>
       <nav style={navstyle}>
         <ul style={ulstyle}>
-          <li style={listyle}><img src="/BBLogo.jpg" alt="Logo" style={{
-            width: '50px',
-            borderRadius: '10px',
-            marginLeft: '5px',
-            alignSelf: 'center'
-          }} /></li>
+          <li style={listyle}>
+            <img
+              src="/BBLogo.jpg"
+              alt="Logo"
+              style={{
+                width: "50px",
+                borderRadius: "10px",
+                marginLeft: "5px",
+                alignSelf: "center",
+              }}
+            />
+          </li>
 
           {isAdminAuthenticated && isAdminRoute && (
             <>
               <li style={listyle}>
-                <Button onClick={handleAdminsHomeClick}> <FaHome />Admin Home</Button>
+                <Button onClick={handleAdminsHomeClick}>
+                  {" "}
+                  <FaHome />
+                  Admin Home
+                </Button>
               </li>
 
               <li style={listyle}>
-                <Button onClick={handleAddBooksClick}> <FaPlusCircle /> Add books </Button>
+                <Button onClick={handleAddBooksClick}>
+                  {" "}
+                  <FaPlusCircle /> Add books{" "}
+                </Button>
               </li>
 
               <li style={listyle}>
-              <Button > <FaUser /> {adminInfo.firstName} {adminInfo.lastName} </Button>
-            </li>
-
-            <li style={listyle}>
-            <Button > <FaEnvelope /> {adminInfo.email} </Button>
-          </li>
-
-          <li style={listyle}>
-                <Button onClick={handleAdminLogout}> <FaSignOutAlt /> Log out </Button>
+                <Button>
+                  {" "}
+                  <FaUser /> {adminInfo.firstName} {adminInfo.lastName}{" "}
+                </Button>
               </li>
-  
+
+              <li style={listyle}>
+                <Button>
+                  {" "}
+                  <FaEnvelope /> {adminInfo.email}{" "}
+                </Button>
+              </li>
+
+              <li style={listyle}>
+                <Button onClick={handleAdminLogout}>
+                  {" "}
+                  <FaSignOutAlt /> Log out{" "}
+                </Button>
+              </li>
             </>
           )}
 
           {!isAdminRoute && isUserAuthenticated && (
             <>
-
               <li style={listyle}>
-                <Button onClick={handleBooksClick}> <FaBook /> Books </Button>
+                <Button onClick={handleBooksClick}>
+                  {" "}
+                  <FaBook /> Books{" "}
+                </Button>
               </li>
 
               <li style={listyle}>
-                <Button onClick={handleDashboardClick}> <FaTachometerAlt />Dashboard</Button>
+                <Button onClick={handleDashboardClick}>
+                  {" "}
+                  <FaTachometerAlt />
+                  Dashboard
+                </Button>
               </li>
 
               <li style={listyle}>
-                <Button onClick={handleCartClick}> <FaShoppingCart /> Your Cart </Button>
-              </li>
-
-              <li style={listyle} >
-                <Button > <FaUser /> {userData.firstName} {userData.lastName}  </Button>
+                <Button onClick={handleCartClick}>
+                  {" "}
+                  <FaShoppingCart /> Your Cart{" "}
+                </Button>
               </li>
 
               <li style={listyle}>
-                <Button onClick={handleUserLogout}> <FaSignOutAlt /> Log out </Button>
+                <Button onClick={handleProfileClick}>
+                  {" "}
+                  <FaUser /> {userData.firstName} {userData.lastName}{" "}
+                </Button>
+              </li>
+
+              <li style={listyle}>
+                <Button onClick={handleUserLogout}>
+                  {" "}
+                  <FaSignOutAlt /> Log out{" "}
+                </Button>
               </li>
             </>
           )}
@@ -187,23 +227,31 @@ const Header = () => {
           {!isAdminRoute && !isUserAuthenticated && (
             <>
               <li style={listyle}>
-                <Button onClick={handleHomeClick}> <FaHome /> Home</Button>
+                <Button onClick={handleHomeClick}>
+                  {" "}
+                  <FaHome /> Home
+                </Button>
               </li>
 
               <li style={listyle}>
-                <Button onClick={handleAboutClick}> <FaInfoCircle /> About</Button>
+                <Button onClick={handleAboutClick}>
+                  {" "}
+                  <FaInfoCircle /> About
+                </Button>
               </li>
 
               <li style={listyle}>
-                <Button onClick={handleLoginClick}> <FaKey /> Log in</Button>
+                <Button onClick={handleLoginClick}>
+                  {" "}
+                  <FaKey /> Log in
+                </Button>
               </li>
             </>
           )}
 
           {isAdminRoute && (
             <>
-              <li style={listyle}>
-              </li>
+              <li style={listyle}></li>
             </>
           )}
         </ul>
@@ -211,7 +259,7 @@ const Header = () => {
 
       <Outlet />
     </>
-  )
+  );
 };
 
 export default Header;
