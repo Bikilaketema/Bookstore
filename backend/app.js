@@ -2,7 +2,9 @@ const express = require("express");
 const cors = require("cors");
 const userRoutes = require("./routes/user.route");
 const bookRoutes = require("./routes/book.route");
-const adminRoutes = require("./routes/admin.route")
+const adminRoutes = require("./routes/admin.route");
+const cartRoutes = require("./routes/cart.route");
+const checkoutRoutes = require("./routes/checkout.route");
 
 const app = express();
 
@@ -23,5 +25,8 @@ app.get("/", (req, res) => {
 app.use("/user", userRoutes); 
 app.use("/book", bookRoutes); 
 app.use("/admin", adminRoutes);
+app.use("/cart", cartRoutes);
+app.use("/checkout", checkoutRoutes);
+app.use("/uploads", express.static("public/uploads"));
 
 module.exports = app;

@@ -68,9 +68,18 @@ adminSchema.pre('save', async function(next) {
 
 // Method to generate a JWT token for the user
 adminSchema.methods.getjwtToken = function () {
-  return jwt.sign({ id: this._id }, process.env.JWT_SECRET_KEY, {
-    expiresIn: process.env.JWT_SECRET_KEY_EXPIRE,
-  });
+  return jwt.sign(
+    {
+      id: this._id,
+      firstName: this.firstName,
+      lastName: this.lastName,
+      email: this.email
+    },
+    process.env.JWT_SECRET_KEY,
+    {
+      expiresIn: process.env.JWT_SECRET_KEY_EXPIRE,
+    }
+  );
 };
 
 // Method to compare the user's password with a provided password

@@ -16,6 +16,10 @@ const getAllbooks = catchAsyncErrors(async (req, res, next) => {
         { title: { $regex: regex } },
         { author: { $regex: regex } },
         { description: { $regex: regex } },
+        { coverPage: { $regex: regex } },
+        { price: { $regex: regex } },
+        { genre: { $regex: regex } },
+        { pdfLink: { $regex: regex }}
       ],
     };
   }
