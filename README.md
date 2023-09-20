@@ -1,2 +1,2 @@
-#Booktore | Portfolio project by Bikila and Bekalu
+# Booktore | Portfolio project by Bikila and Bekalu
 
