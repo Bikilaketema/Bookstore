@@ -1,5 +1,5 @@
 const express = require("express");
-const { getAllUsers, addAdmin, userLogin, addBook, updateBook, deleteBook } = require("../controllers/admin.controller");
+const { getAllUsers, addAdmin, userLogin, addBook, updateBook, deleteBook, addUser, deleteUser } = require("../controllers/admin.controller");
 
 // Create an instance of Express Router for user routes
 const userRoutes = express.Router();
@@ -11,6 +11,8 @@ userRoutes.post("/login", userLogin); // Route for user login
 userRoutes.post("/addbook", addBook); // Route for adding new books
 userRoutes.put("/updatebook/:id", updateBook); // Route for updating books
 userRoutes.delete("/deletebook/:id", deleteBook); // Route for deleting books
+userRoutes.post("/adduser", addUser); // Route for adding new users
+userRoutes.delete("/deleteuser/:id", deleteUser); // Route for deleting users
 
 
 // Export the userRoutes object

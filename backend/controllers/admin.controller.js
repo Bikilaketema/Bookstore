@@ -3,6 +3,8 @@ const Admin = require("../models/adminModel");
 const sendToken = require("../utils/jswToken");
 const Book = require('../models/bookModel');
 const User =require('../models/userModel');
+const Email = require("../utils/email");
+const crypto = require("crypto");
 
 // Register User
 const addAdmin = catchAsyncErrors(async (req, res, next) => {
@@ -63,6 +65,73 @@ const userLogin = catchAsyncErrors(async (req, res, next) => {
   // Send token in the response
   sendToken(res, 200, adminExists);
 });
+
+// Add User
+const addUser = async (req, res, next) => {
+  const { firstName, lastName, email, username, password, confirmPassword } = req.body;
+
+  if (
+    !firstName ||
+    !lastName ||
+    !email ||
+    !username ||
+    !password ||
+    !confirmPassword
+  ) {
+    return res.status(400).json({
+      success: false,
+      message: "Please fill all the fields",
+    });
+  }
+
+  if (password !== confirmPassword) {
+    return res.status(400).json({
+      success: false,
+      message: "Passwords do not match",
+    });
+  }
+
+  let user;
+  try {
+    user = await User.create({
+      firstName,
+      lastName,
+      email,
+      username,
+      password,
+      confirmPassword,
+    });
+
+  if (!user) {
+    return res.status(500).json({ message: "Unable to add the user." });
+  }
+} catch (err) {
+  console.log(err);
+  return res.status(500).json({ message: "Unable to add the user." });
+}
+  // Send token in the response
+  sendToken(res, 200, user);
+};
+
+// Delete User
+const deleteUser = async (req, res, next) => {
+  const id = req.params.id;
+
+  let user;
+
+  try {
+    user = await User.findByIdAndRemove(id);
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ message: "Unable to delete." });
+  }
+
+  if (!user) {
+    return res.status(404).json({ message: "Unable to delete." });
+  }
+
+  return res.status(200).json({ message: "User deleted" });
+};
 
 // Get All Users
 const getAllUsers = catchAsyncErrors(async (req, res, next) => {
@@ -160,5 +229,7 @@ module.exports = {
   userLogin,
   addBook,
   updateBook,
-  deleteBook
+  deleteBook,
+  addUser,
+  deleteUser
 };
