@@ -1,8 +1,8 @@
-# BB Bookstore
+# BB Bookstore 📚📔
 
 This Online Bookstore web application developed using the MERN (MongoDB, Express.js, React.js, Node.js) stack. The project was developed as part of the 12-month _**[Software Engineering program](https://www.alxafrica.com/software-engineering/)**_ graduation at **[ALX Africa](https://www.alxafrica.com)**.
 
-## Table of Contents
+## Table of Contents 📄
 
 - [Introduction](#introduction)
 - [Features](#features)
@@ -61,7 +61,7 @@ The BB Online Bookstore web application is built using the following technologie
 - **React Router**: A routing library for React.js used for handling client-side navigation.
 - **Bootstrap**: A popular CSS framework used for styling and responsiveness.
 
-## Installation
+## Installation 👨‍💻
 
 To run the Online Bookstore web application locally, follow these steps:
 
@@ -120,20 +120,20 @@ To run the Online Bookstore web application locally, follow these steps:
 
 7. Access the application in your web browser at `http://localhost:3000`.
 
-## Usage
+## Usage ✅
 
 - Access the application in your web browser at `http://localhost:3000`.
 - Register a new user account or log in with an existing account.
 - Browse through the available books, search for specific titles or authors, and add books to your shopping cart.
 - Proceed to the checkout process to complete your purchase.
 - If you have purchased a book, you can access the online reading feature and enjoy reading the book directly on the website.
-- As an admin, you can log in to the admin panel and manage the books available on the website. You can add new books or remove existing ones...[Currently Admins are added to the database manually using the create admin account end point].
+- As an admin, you can log in to the admin panel and manage the books available on the website. You can add new books or remove existing ones...[Currently, Admins are added to the database manually using the create admin account endpoint].
 
-# Contributing
+# Contributing 🧑🏽‍💼
 
-We welcome contributions to BB Online Bookshop! Please see our [contribution file](CONTRIBUTING.md) for more information on how to get started.
+We welcome contributions to the BB Online Bookshop! Please see our [contribution file](CONTRIBUTING.md) for more information on how to get started.
 
-## Authors
+## Authors ✍️
 [Bikila Ketema](https://twitter.com/bikilaketema) 
 
 [Bekalu Endrias ](https://twitter.com/bekaluendrias)
