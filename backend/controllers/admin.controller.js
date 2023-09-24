@@ -3,8 +3,6 @@ const Admin = require("../models/adminModel");
 const sendToken = require("../utils/jswToken");
 const Book = require('../models/bookModel');
 const User =require('../models/userModel');
-const Email = require("../utils/email");
-const crypto = require("crypto");
 
 // Register User
 const addAdmin = catchAsyncErrors(async (req, res, next) => {
