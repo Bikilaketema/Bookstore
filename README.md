@@ -1,6 +1,6 @@
-# Online Bookstore - MERN Stack Application
+# BB Bookstore
 
-This is a comprehensive README file for the Online Bookstore web application developed using the MERN (MongoDB, Express.js, React.js, Node.js) stack. The project was developed as part of the 12-month Software Engineering program graduation at ALX AFRICA.
+This Online Bookstore web application developed using the MERN (MongoDB, Express.js, React.js, Node.js) stack. The project was developed as part of the 12-month _**[Software Engineering program](https://www.alxafrica.com/software-engineering/)**_ graduation at **[ALX Africa](https://www.alxafrica.com)**.
 
 ## Table of Contents
 
@@ -12,13 +12,13 @@ This is a comprehensive README file for the Online Bookstore web application dev
 - [Contributing](#contributing)
 - [License](#license)
 
-## Introduction
+## Introduction 🤔
 
-The Online Bookstore is a web application developed to provide users with the ability to buy books and read them online. Users are required to create an account to access the full functionality of the platform. The application also provides an admin interface to manage the books available on the website, allowing administrators to add and remove books as needed.
+The Online BB Bookstore is a web application developed to provide users with the ability to buy books and read them online. Users are required to create an account to access the full functionality of the platform. The application also provides an admin interface to manage the books available on the website, allowing administrators to add and remove books as needed.
 
-## Features
+## Features ⭐
 
-The Online Bookstore web application offers the following features:
+The BB Online Bookstore web application offers the following features:
 
 1. User Registration and Authentication:
    - Users can create new accounts by providing necessary details like name, email, and password.
@@ -47,9 +47,9 @@ The Online Bookstore web application offers the following features:
    - Admins can add new books to the catalog, including details like title, author, genre, description, and price.
    - Admins can remove books from the catalog if they are no longer available.
 
-## Technologies Used
+## Technologies Used 💻
 
-The Online Bookstore web application is built using the following technologies:
+The BB Online Bookstore web application is built using the following technologies:
 
 - **MongoDB**: A NoSQL database used for storing book and user data.
 - **Express.js**: A web application framework for Node.js used to build the backend API.
@@ -74,7 +74,7 @@ To run the Online Bookstore web application locally, follow these steps:
 2. Navigate to the project directory:
 
    ```
-   cd online-bookstore
+   cd bookstore
    ````
 
 3. Install the dependencies for both the server and client:
@@ -93,6 +93,7 @@ To run the Online Bookstore web application locally, follow these steps:
      PORT=<port-number>
      MONGODB_URI=<mongodb-connection-url>
      JWT_SECRET=<jwt-secret-key>
+     JWT_SECRET_KEY_EXPIRE=<jst-secret-key-exp-time>
      ```
 
 5. Seed the database with initial data (optional):
@@ -128,7 +129,15 @@ To run the Online Bookstore web application locally, follow these steps:
 - If you have purchased a book, you can access the online reading feature and enjoy reading the book directly on the website.
 - As an admin, you can log in to the admin panel and manage the books available on the website. You can add new books or remove existing ones...[Currently Admins are added to the database manually using the create admin account end point].
 
+# Contributing
+
+We welcome contributions to BB Online Bookshop! Please see our [contribution file](CONTRIBUTING.md) for more information on how to get started.
+
 ## Authors
 [Bikila Ketema](https://twitter.com/bikilaketema) 
 
 [Bekalu Endrias ](https://twitter.com/bekaluendrias)
+
+## License 🪪
+
+BB Online Bookshop is licensed under the [MIT LICENSE](LICENSE).
