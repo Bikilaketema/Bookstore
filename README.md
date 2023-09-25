@@ -23,6 +23,7 @@ The BB Online Bookstore web application offers the following features:
 1. User Registration and Authentication:
    - Users can create new accounts by providing necessary details like name, email, and password.
    - Users can log in using their registered email and password.
+   - Users can edit their profile details including changing their password.
    - Passwords are securely stored using hashing algorithms.
 
 2. Book Listing and Search:
@@ -44,6 +45,7 @@ The BB Online Bookstore web application offers the following features:
 
 6. Admin Panel:
    - Administrators have access to an admin panel for managing books on the website.
+   - Admins can add new users and remove the existing ones.
    - Admins can add new books to the catalog, including details like title, author, genre, description, and price.
    - Admins can remove books from the catalog if they are no longer available.
 
