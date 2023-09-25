@@ -1,17 +1,19 @@
 const express = require("express");
-const { getAllUsers, addAdmin, userLogin, addBook, updateBook, deleteBook } = require("../controllers/admin.controller");
-
+const { getAllUsers, addAdmin, userLogin, addBook, updateBook, deleteBook, deleteUser, addUser } = require("../controllers/admin.controller");
 // Create an instance of Express Router for user routes
-const userRoutes = express.Router();
+const adminRoutes = express.Router();
+
 
 // Define routes
-userRoutes.get("/", getAllUsers); // Route for retrieving all users
-userRoutes.post("/signUp", addAdmin); // Route for registering a new user
-userRoutes.post("/login", userLogin); // Route for user login
-userRoutes.post("/addbook", addBook); // Route for adding new books
-userRoutes.put("/updatebook/:id", updateBook); // Route for updating books
-userRoutes.delete("/deletebook/:id", deleteBook); // Route for deleting books
+adminRoutes.get("/", getAllUsers); // Route for retrieving all users
+adminRoutes.post("/signUp", addAdmin); // Route for registering a new user
+adminRoutes.post("/login", userLogin); // Route for user login
+adminRoutes.post("/addbook", addBook); // Route for adding new books
+adminRoutes.post("/adduser", addUser); // Route for adding new users
+adminRoutes.put("/updatebook/:id", updateBook); // Route for updating books
+adminRoutes.delete("/deletebook/:id", deleteBook); // Route for deleting books
+adminRoutes.delete("/deleteuser/:id", deleteUser); // Route for deleting user profile 
 
 
 // Export the userRoutes object
-module.exports = userRoutes;
+module.exports = adminRoutes;

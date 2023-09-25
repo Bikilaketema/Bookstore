@@ -60,6 +60,10 @@ const Header = () => {
     navigate('/admin/books');
   };
 
+  const handleUsersClick = () => {
+    navigate('/admin/users');
+  };
+
   const isAdminRoute = location.pathname.startsWith('/admin');
   const isUserAuthenticated = !!localStorage.getItem('userToken'); 
   const isAdminAuthenticated = !!localStorage.getItem('adminToken'); 
@@ -162,9 +166,9 @@ const Header = () => {
               </li>
 
               <li style={listyle}>
-                <Button>
+                <Button onClick={handleUsersClick}>
                   {" "}
-                  <FaUser /> {adminInfo.firstName} {adminInfo.lastName}{" "}
+                  <FaUser /> Users
                 </Button>
               </li>
 
