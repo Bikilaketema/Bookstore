@@ -3,6 +3,7 @@ const Admin = require("../models/adminModel");
 const sendToken = require("../utils/jswToken");
 const Book = require('../models/bookModel');
 const User =require('../models/userModel');
+const bcrypt = require("bcrypt");
 
 // Register User
 const addAdmin = catchAsyncErrors(async (req, res, next) => {
@@ -178,6 +179,59 @@ const addBook = async (req,res,next) => {
   return res.status(201).json({book})
 };
 
+const addUser = catchAsyncErrors(async (req, res, next) => {
+  const { firstName, lastName, email, username, password, confirmPassword } =
+    req.body;
+
+    let user;
+
+  if (
+    !firstName ||
+    !lastName ||
+    !email ||
+    !username ||
+    !password ||
+    !confirmPassword
+  ) {
+    return res.status(400).json({
+      success: false,
+      message: "Please fill all the fields",
+    });
+  }
+
+  if (password !== confirmPassword) {
+    return res.status(400).json({
+      success: false,
+      message: "Passwords do not match",
+    });
+  }
+
+  try {
+    // Generate a salt
+    const salt = await bcrypt.genSalt();
+
+    // Hash the password along with the salt
+    const hashedPassword = await bcrypt.hash(password, salt);
+
+    // Create a new user with the hashed password
+    const user = await User.create({
+      firstName,
+      lastName,
+      email,
+      username,
+      password: hashedPassword, // Store the hashed password
+    });
+
+    res.status(200).json({
+      success: true,
+      message: "User created!",
+    });
+
+  } catch (error) {
+    console.log(error);
+  }
+});
+
 const updateBook = async (req,res,next) => {
   const id = req.params.id;
   const { title, author, genre, coverPage, price, description, pdfLink} = req.body;
@@ -221,13 +275,30 @@ const deleteBook = async (req,res,next) => {
   return res.status(200).json({message: 'Book deleted'})
 }
 
+// Delete User Profile
+const deleteUser = async (req,res,next) => {
+  const id = req.params.id;
+  let user;
+  try {
+      user = await User.findByIdAndRemove(id);
+  } catch (err) {
+      console.log(err)
+  }
+
+  if(!user) {
+      return res.status(404).json({message:'Unable to delete.'})
+  }
+
+  return res.status(200).json({message: 'user deleted'})
+}
+
 module.exports = {
   getAllUsers,
   addAdmin,
   userLogin,
   addBook,
+  addUser, 
   updateBook,
   deleteBook,
-  addUser,
   deleteUser
 };

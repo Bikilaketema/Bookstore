@@ -1,9 +1,9 @@
 const express = require("express");
+const { deleteUser } = require("../controllers/admin.controller");
 const {
   getProfile,
   signUser,
   userLogin,
-  deleteProfile,
   updateProfile,
   uploadProfilePicture,
   updatePassword,
@@ -18,7 +18,7 @@ userRoutes.get("/profile/:id", authMiddleware, getProfile); // Route for retriev
 userRoutes.post("/signUp", signUser); // Route for registering a new user
 userRoutes.post("/login", userLogin); // Route for user login
 userRoutes.put("/profile/:id", authMiddleware, updateProfile); // Route for updating user profile (optional)
-userRoutes.delete("/profile/:id", authMiddleware, deleteProfile); // Route for deleting user profile (optional)
+userRoutes.delete("/profile/:id", authMiddleware, deleteUser); // Route for deleting user profile (optional)
 userRoutes.post("/profile/:id", authMiddleware, uploadProfilePicture); // Route for uploading user profile picture (optional)
 userRoutes.put('/profile/:id/password', authMiddleware, updatePassword); // Route for updating user password (optional)
 

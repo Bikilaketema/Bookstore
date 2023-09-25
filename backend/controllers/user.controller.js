@@ -214,7 +214,7 @@ const uploadProfilePicture = catchAsyncErrors(async (req, res) => {
 
   // Upload user profile picture here
   // You can access the uploaded file in req.file
-  const profilePictureUrl = await uploadFile(req); // Replace with your actual file upload function
+  const profilePictureUrl = await uploadFile(req); 
 
   // Update user's profile picture in the database
   user.profilePicture = profilePictureUrl;

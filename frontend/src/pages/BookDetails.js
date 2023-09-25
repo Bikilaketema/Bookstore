@@ -38,7 +38,7 @@ const BookDetails = () => {
         <p>Loading...</p>
       ) : (
         <>
-          <img src={book.book.coverPage} alt={book.book.title} />
+          <img src={book.book.coverPage} alt={book.book.title} style={{maxWidth:'50%'}} />
           <p>
             <b>Title</b>: {book.book.title}
           </p>
