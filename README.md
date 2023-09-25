@@ -68,20 +68,20 @@ To run the Online Bookstore web application locally, follow these steps:
 1. Clone the repository from GitHub:
 
    ```
-   git clone <repository-url>
+   git clone https://github.com/Bikilaketema/Bookstore.git
    ````
 
 2. Navigate to the project directory:
 
    ```
-   cd bookstore
+   cd Bookstore
    ````
 
 3. Install the dependencies for both the server and client:
 
    ```
-   cd server && npm install
-   cd client && npm install
+   cd backend && npm install
+   cd frontend && npm install
    ````
 
 4. Configure the environment variables:
@@ -96,23 +96,19 @@ To run the Online Bookstore web application locally, follow these steps:
      JWT_SECRET_KEY_EXPIRE=<jst-secret-key-exp-time>
      ```
 
-5. Seed the database with initial data (optional):
+5. Seed the database with initial data (mandatory):
    
-   - If you want to populate the database with some initial book data, run the following command:
-   
-     ```
-     node seed.js
-     ```
+   - Populate the database with placeholder datas yourself
 
 6. Start the application:
    
-   - In the `server` directory, run:
+   - In the `backend` directory, run:
    
      ```
      npm start
      ```
      
-   - In the `client` directory, run:
+   - In the `frontend` directory, run:
    
      ```
      npm start
@@ -127,17 +123,9 @@ To run the Online Bookstore web application locally, follow these steps:
 - Browse through the available books, search for specific titles or authors, and add books to your shopping cart.
 - Proceed to the checkout process to complete your purchase.
 - If you have purchased a book, you can access the online reading feature and enjoy reading the book directly on the website.
-- As an admin, you can log in to the admin panel and manage the books available on the website. You can add new books or remove existing ones...[Currently, Admins are added to the database manually using the create admin account endpoint].
-
-# Contributing 🧑🏽‍💼
-
-We welcome contributions to the BB Online Bookshop! Please see our [contribution file](CONTRIBUTING.md) for more information on how to get started.
-
+- As an admin, you can log in to the admin panel and manage the books available on the website. You can add new books and users, remove existing ones...[Currently, Admins are added to the database manually using the create admin account endpoint].
+  
 ## Authors ✍️
 [Bikila Ketema](https://twitter.com/bikilaketema) 
 
 [Bekalu Endrias ](https://twitter.com/bekaluendrias)
-
-## License 🪪
-
-BB Online Bookshop is licensed under the [MIT LICENSE](LICENSE).
