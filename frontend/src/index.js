@@ -13,6 +13,7 @@ import Cart from './userPages/Cart';
 import Books from './pages/Books';
 import AdminLogin from './adminPages/AdminLogin';
 import AddBooks from './adminPages/AddBooks';
+import AddUser from './adminPages/AddUser';
 import BookDetails from './pages/BookDetails';
 import UpdateBooks from './adminPages/UpdateBooks';
 import Checkout from './userPages/Checkout';
@@ -95,6 +96,7 @@ export default function App() {
           <Route path="/admin/login" element={<AdminLogin />} />
           <Route path="/admin/" element={<ProtectedRoute element={<Books />} />} />
           <Route path="/admin/users" element={<ProtectedRoute element={<Users />} />} />
+          <Route path="/admin/adduser" element={<ProtectedRoute element={<AddUser />} />} />
           <Route path="/admin/books" element={<ProtectedRoute element={<AddBooks />} />} />
           <Route path="/books/detail/:id" element={<ProtectedRoute element={<BookDetails />} />} />
           <Route path="/admin/books/update/:id" element={<ProtectedRoute element={<UpdateBooks />} />} />
