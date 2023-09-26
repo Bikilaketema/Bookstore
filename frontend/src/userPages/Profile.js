@@ -3,6 +3,7 @@ import { Container, Card, Button, Form, Row, Col } from "react-bootstrap";
 import ProfilePic from "../uploads/profile.png";
 import jwt_decode from "jwt-decode";
 import axios from "axios";
+import capitalize from "../helperFunctions/helper";
 
 const Profile = () => {
   const [userData, setUserData] = useState({
@@ -104,6 +105,7 @@ const Profile = () => {
       if (response.data.success) {
         setUserData(updatedUserData);
         setEditMode(false);
+
       } else {
         setErrorMessage("Error saving profile information.");
       }
@@ -118,8 +120,13 @@ const Profile = () => {
   };
 
   if (errorMessage) {
-    return <p>{errorMessage}</p>;
+    return <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+    <h4 style={{ marginBottom: '10%' }}>Error fetching your profile. Refresh the page and try again!</h4>
+  </div>;
   }
+
+  const firstName = capitalize(userData.firstName);
+  const lastName = capitalize(userData.lastName);
 
   return (
     <Container fluid>
@@ -146,7 +153,7 @@ const Profile = () => {
                   {!editMode ? (
                     <>
                       <h5>
-                        {userData.firstName} {userData.lastName}
+                        {firstName} {lastName}
                       </h5>
                       <p>
                         <b>Username:</b> {userData.username}
@@ -244,16 +251,18 @@ const Profile = () => {
                           />
                         </Form.Group>
                         {/* Add more fields as necessary */}
+                        <div style={{marginTop:"10px"}}>
                         <Button
                           variant="primary"
                           onClick={handleSaveProfile}
-                          style={{ marginRight: "10px" }}
+                          style={{ marginRight: "10px"}}
                         >
                           Save Changes
                         </Button>{" "}
                         <Button variant="secondary" onClick={handleCancelEdit}>
                           Cancel
                         </Button>
+                        </div>
                       </Form>
                     </>
                   )}

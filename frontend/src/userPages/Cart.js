@@ -85,14 +85,12 @@ const Cart = () => {
           <Card style={{ padding: "1%", borderRadius: "10px", boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.2)" }}>
             {loading ? (
               <p>Loading cart items...</p>
-            ) : error ? (
-              <p className="text-danger">{error}</p>
-            ) : cartEmptyMessage ? (
-              <p>{cartEmptyMessage}</p>
             ) : (
               <>
                 {cartItems.length === 0 ? (
-                  <p>Your cart is empty.</p>
+                  <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+    <h4 style={{ marginBottom: '10%' }}>Your cart is empty!</h4>
+  </div>
                 ) : (
                   <div>
                     {cartItems.map((item) => (
@@ -104,7 +102,7 @@ const Cart = () => {
                         <div className="d-flex align-items-center">
                           <img
                             src={item.coverPage}
-                            alt={item.name}
+                            alt={"Book cover img"}
                             width="100"
                             height="100"
                             className="mr-3"

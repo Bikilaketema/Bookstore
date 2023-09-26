@@ -46,10 +46,10 @@ const Book = (props) => {
 
   return shouldDisplayBook ? (
     <Card className="book-card">
-      <Card.Img src={coverPage} alt={title} />
+      <Card.Img src={coverPage} alt={"Book cover img"} style={{width:'100%',height:'300px'}} />
       <Card.Body style={{ display: "flex", flexDirection: "column" }}>
         <Card.Text>By {author}</Card.Text>
-        <Card.Title>{title}</Card.Title>
+        <Card.Title>{title.length > 15 ? title.substring(0, 15) + '...' : title}</Card.Title>
         <Card.Text>Genre: {genre}</Card.Text>
         <Card.Title>Price: ETB {price}</Card.Title>
 

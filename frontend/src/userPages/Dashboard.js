@@ -109,9 +109,8 @@ const UserDashboard = () => {
                     backgroundColor: 'skyblue',
                   };
                   const imageStyle = {
-                    width: '120px',
-                    maxHeight: '80px',
-                    marginRight: '2%',
+                    width: '80px',
+                    Height: '100px',
                     borderRadius: '5px',
                   };
                   const titleStyle = {
@@ -121,6 +120,7 @@ const UserDashboard = () => {
                     flex: '1',
                     fontWeight: 'bold',
                     fontSize: '1.2rem',
+                    marginLeft: '3%'
                   };
                   const buttonStyle = {
                     position: 'absolute',
@@ -146,7 +146,7 @@ const UserDashboard = () => {
                         >
                           <img
                             src={book ? book.coverPage : ""}
-                            alt={book ? book.title : ""}
+                            alt={"Book cover img"}
                             className="img-thumbnail mr-3"
                             style={imageStyle}
                           />

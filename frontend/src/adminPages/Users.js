@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Container, Card, Button, Form, Row, Col, Alert } from "react-bootstrap";
+import { Container, Card, Button, Alert } from "react-bootstrap";
 import axios from 'axios';
+import capitalize from '../helperFunctions/helper';
 
 const Users = () => {
   const navigate = useNavigate();
@@ -51,7 +52,7 @@ const Users = () => {
         !deletedUsers.includes(user._id) && (
           <Card key={user._id} style={{ display: 'flex', flexDirection: 'row', margin: '10px', backgroundColor: 'skyblue', padding: '10px' }}>
             <div style={{ flex: 1 }}>
-              <h6>{user.firstName} {user.lastName}</h6>
+            <h6>{capitalize(user.firstName)} {capitalize(user.lastName)}</h6>
             </div>
             <div>
               <Button

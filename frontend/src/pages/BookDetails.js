@@ -32,7 +32,7 @@ const BookDetails = () => {
   }, [id]);
 
   return (
-    <Container style={{ padding: "5%" }}>
+    <Container style={{ padding: "2%" }}>
       <h1 style={{ textAlign: "center" }}>Book Details</h1>
       {loading ? (
         <p>Loading...</p>

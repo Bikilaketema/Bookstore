@@ -114,23 +114,6 @@ const Header = () => {
     navigate('/admin/login'); 
   };
   
-
-  const token = localStorage.getItem("userToken");
-  let userData = null; 
-  
-  if (token) {
-    
-    const decoded = jwt_decode(token);
-  
-    userData = {
-      username: decoded.username,
-      email: decoded.email,
-      firstName: decoded.firstName,
-      lastName: decoded.lastName,
-    };
-  } 
-  
-
   return (
     <>
       <nav style={navstyle}>
@@ -208,14 +191,14 @@ const Header = () => {
               <li style={listyle}>
                 <Button onClick={handleCartClick}>
                   {" "}
-                  <FaShoppingCart /> Your Cart{" "}
+                  <FaShoppingCart /> My Cart{" "}
                 </Button>
               </li>
 
               <li style={listyle}>
                 <Button onClick={handleProfileClick}>
                   {" "}
-                  <FaUser /> {userData.firstName} {userData.lastName}{" "}
+                  <FaUser /> My profile{" "}
                 </Button>
               </li>
 
