@@ -3,37 +3,20 @@ const bookModel = require("../models/bookModel");
 
 //get All books
 const getAllbooks = catchAsyncErrors(async (req, res, next) => {
-  const { q, page, limit } = req.query;
+  try {
+    // Assuming you have a "User" model defined using Mongoose
+    const books = await bookModel.find(); // Retrieve all users from the database
 
-  // Create an empty filter object
-  let filterObj = {};
-
-  // If the 'q' query parameter is present, add search criteria to the filter object
-  if (q) {
-    const regex = new RegExp(q, "i");
-    filterObj = {
-      $or: [
-        { title: { $regex: regex } },
-        { author: { $regex: regex } },
-        { description: { $regex: regex } },
-        { coverPage: { $regex: regex } },
-        { price: { $regex: regex } },
-        { genre: { $regex: regex } },
-        { pdfLink: { $regex: regex }}
-      ],
-    };
+    res.status(200).json({
+      success: true,
+      books, // Include the list of users in the response
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: `Error retrieving the books: ${error.message}`, // Include the error message
+    });
   }
-
-  // Query the database using the search criteria
-  const books = await bookModel
-    .find(filterObj)
-    .skip((page - 1) * limit)
-    .limit(limit);
-
-  // Get the total count of  based on the search criteria
-  const bookCount = await bookModel.countDocuments();
-
-  res.status(201).json({ success: true, books, bookCount });
 });
 
 // Get Book Details
