@@ -19,6 +19,7 @@ function Login() {
 
   const [error, setError] = useState("");
 
+  // Handle changes in input fields
   const handleChange = (e) => {
     const { id, value } = e.target;
     setCredentials((prevCredentials) => ({
@@ -27,38 +28,52 @@ function Login() {
     }));
   };
 
+  // Navigate to sign-up page
   const handleSignUpClick = () => {
     navigate("/signup");
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  // Handle form submission
+const handleSubmit = async (e) => {
+  e.preventDefault();
 
-    try {
-      const response = await fetch(
-        `${process.env.REACT_APP_API_URL}/user/login`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(credentials),
-        }
-      );
+  // Basic validation for empty fields
+  if (!credentials.identifier || !credentials.password) {
+    setError("Both fields are required.");
+    return;
+  }
 
-      const data = await response.json();
-
-      if (response.status === 200) {
-        // Successful user login, store the JWT token in local storage
-        localStorage.setItem("userToken", data.token); // Use a different key for user token
-        navigate("/books");
-      } else {
-        setError(data.message);
+  try {
+    const response = await fetch(
+      `${process.env.REACT_APP_API_URL}/user/login`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(credentials),
       }
-    } catch (error) {
-      console.error("User Login error:", error);
+    );
+
+    const data = await response.json();
+
+    // Log the response to see the status and data
+    console.log("Response:", response);
+    console.log("Data:", data);
+
+    if (response.status === 200) {
+      // Successful user login, store the JWT token in local storage
+      localStorage.setItem("userToken", data.token);
+      navigate("/books");
+    } else {
+      setError(data.message || "Login failed. Please try again.");
     }
-  };
+  } catch (error) {
+    console.error("User Login error:", error);
+    setError("An unexpected error occurred. Please try again.");
+  }
+};
+
 
   const location = useLocation();
   // Extract the success message from the query parameter
@@ -108,7 +123,6 @@ function Login() {
             value={credentials.password}
             onChange={handleChange}
           />
-
           <Button variant="primary" type="submit" style={{ marginTop: "5%" }}>
             Log in
           </Button>
