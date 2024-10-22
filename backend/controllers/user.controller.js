@@ -3,7 +3,7 @@ const User = require("../models/userModel");
 const axios = require("axios");
 const multer = require("multer");
 const bcrypt = require("bcrypt");
-
+const sendToken = require("../utils/jswToken");
 
 // Set up Multer for file uploads
 const upload = multer({ storage: multer.memoryStorage() });
