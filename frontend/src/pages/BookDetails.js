@@ -17,7 +17,9 @@ const BookDetails = () => {
   useEffect(() => {
     const fetchBookDetails = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/book/${id}`);
+        const response = await axios.get(
+          `${process.env.REACT_APP_API_URL}/book/${id}`
+        );
         console.log("Book details response:", response.data);
         setBook(response.data);
         setLoading(false);
@@ -38,7 +40,11 @@ const BookDetails = () => {
         <p>Loading...</p>
       ) : (
         <>
-          <img src={book.book.coverPage} alt={book.book.title} style={{maxWidth:'50%'}} />
+          <img
+            src={book.book.coverPage}
+            alt={book.book.title}
+            style={{ maxWidth: "50%" }}
+          />
           <p>
             <b>Title</b>: {book.book.title}
           </p>

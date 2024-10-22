@@ -1,23 +1,23 @@
-import React, { useState } from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import { Container, Form, Button } from 'react-bootstrap';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
+import React, { useState } from "react";
+import "bootstrap/dist/css/bootstrap.min.css";
+import { Container, Form, Button } from "react-bootstrap";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 
 const labelStyle = {
-  textAlign: 'center',
-  fontSize: '20px',
-  alignItems: 'center',
-  marginBottom: '8%',
+  textAlign: "center",
+  fontSize: "20px",
+  alignItems: "center",
+  marginBottom: "8%",
 };
 
 function Login() {
   const navigate = useNavigate();
   const [credentials, setCredentials] = useState({
-    identifier: '',
-    password: '',
+    identifier: "",
+    password: "",
   });
 
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
 
   const handleChange = (e) => {
     const { id, value } = e.target;
@@ -28,58 +28,61 @@ function Login() {
   };
 
   const handleSignUpClick = () => {
-    navigate('/signup');
+    navigate("/signup");
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      const response = await fetch('http://localhost:5000/user/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(credentials),
-      });
+      const response = await fetch(
+        `${process.env.REACT_APP_API_URL}/user/login`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(credentials),
+        }
+      );
 
       const data = await response.json();
 
       if (response.status === 200) {
         // Successful user login, store the JWT token in local storage
-        localStorage.setItem('userToken', data.token); // Use a different key for user token
-        navigate('/books');
+        localStorage.setItem("userToken", data.token); // Use a different key for user token
+        navigate("/books");
       } else {
         setError(data.message);
       }
     } catch (error) {
-      console.error('User Login error:', error);
+      console.error("User Login error:", error);
     }
   };
 
   const location = useLocation();
   // Extract the success message from the query parameter
   const queryParams = new URLSearchParams(location.search);
-  const successMessage = queryParams.get('success') || '';
+  const successMessage = queryParams.get("success") || "";
 
   return (
     <Container
       style={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        backgroundColor: 'skyblue',
-        marginTop: '3%',
-        borderRadius: '20px',
-        padding: '20px',
-        width: '100%',
-        height: '70vh',
-        overflowY: 'auto',
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        backgroundColor: "skyblue",
+        marginTop: "3%",
+        borderRadius: "20px",
+        padding: "20px",
+        width: "100%",
+        height: "70vh",
+        overflowY: "auto",
       }}
     >
-      <h1 style={{ marginBottom: '5%' }}>Log in</h1>
+      <h1 style={{ marginBottom: "5%" }}>Log in</h1>
       {successMessage && (
-        <div className="text-success" style={{ marginBottom: '2%' }}>
+        <div className="text-success" style={{ marginBottom: "2%" }}>
           {successMessage}
         </div>
       )}
@@ -106,27 +109,30 @@ function Login() {
             onChange={handleChange}
           />
 
-          <Button variant="primary" type="submit" style={{ marginTop: '5%' }}>
+          <Button variant="primary" type="submit" style={{ marginTop: "5%" }}>
             Log in
           </Button>
         </Form.Group>
 
         <div
           style={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
           }}
         >
           <p>Don't have an account?</p>
           <Button
             variant="secondary"
             style={{
-              marginBottom: '3%',
+              marginBottom: "3%",
             }}
             onClick={handleSignUpClick}
           >
-            <Link to="signup" style={{ color: 'white', textDecoration: 'none' }}>
+            <Link
+              to="signup"
+              style={{ color: "white", textDecoration: "none" }}
+            >
               Sign up
             </Link>
           </Button>

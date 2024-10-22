@@ -36,7 +36,7 @@ const Profile = () => {
 
     try {
       const response = await axios.put(
-        `http://localhost:5000/user/profile/${userData._id}/password`,
+        `${process.env.REACT_APP_API_URL}/user/profile/${userData._id}/password`,
         { password, newPassword, confirmNewPassword },
         { headers: { Authorization: `Bearer ${userToken}` } }
       );
@@ -66,11 +66,11 @@ const Profile = () => {
       const userId = decoded.id;
       try {
         const response = await axios.get(
-          `http://localhost:5000/user/profile/${userId}`,
+          `${process.env.REACT_APP_API_URL}/user/profile/${userId}`,
           { headers: { Authorization: `Bearer ${userToken}` } }
         );
         const user = response.data.user;
-        user.profilePicture = `http://localhost:5000${user.profilePicture}`;
+        user.profilePicture = `${process.env.REACT_APP_API_URL}${user.profilePicture}`;
         console.log(user.profilePicture);
         setUserData(user);
       } catch (error) {
@@ -98,14 +98,13 @@ const Profile = () => {
 
     try {
       const response = await axios.put(
-        `http://localhost:5000/user/profile/${userData._id}`,
+        `${process.env.REACT_APP_API_URL}/user/profile/${userData._id}`,
         updatedUserData,
         { headers: { Authorization: `Bearer ${userToken}` } }
       );
       if (response.data.success) {
         setUserData(updatedUserData);
         setEditMode(false);
-
       } else {
         setErrorMessage("Error saving profile information.");
       }
@@ -120,9 +119,20 @@ const Profile = () => {
   };
 
   if (errorMessage) {
-    return <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-    <h4 style={{ marginBottom: '10%' }}>Error fetching your profile. Refresh the page and try again!</h4>
-  </div>;
+    return (
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <h4 style={{ marginBottom: "10%" }}>
+          Error fetching your profile. Refresh the page and try again!
+        </h4>
+      </div>
+    );
   }
 
   const firstName = capitalize(userData.firstName);
@@ -251,17 +261,20 @@ const Profile = () => {
                           />
                         </Form.Group>
                         {/* Add more fields as necessary */}
-                        <div style={{marginTop:"10px"}}>
-                        <Button
-                          variant="primary"
-                          onClick={handleSaveProfile}
-                          style={{ marginRight: "10px"}}
-                        >
-                          Save Changes
-                        </Button>{" "}
-                        <Button variant="secondary" onClick={handleCancelEdit}>
-                          Cancel
-                        </Button>
+                        <div style={{ marginTop: "10px" }}>
+                          <Button
+                            variant="primary"
+                            onClick={handleSaveProfile}
+                            style={{ marginRight: "10px" }}
+                          >
+                            Save Changes
+                          </Button>{" "}
+                          <Button
+                            variant="secondary"
+                            onClick={handleCancelEdit}
+                          >
+                            Cancel
+                          </Button>
                         </div>
                       </Form>
                     </>

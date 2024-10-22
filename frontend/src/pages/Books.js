@@ -3,7 +3,7 @@ import axios from "axios";
 import { Container, Row, Col, Card } from "react-bootstrap";
 import Book from "./Book";
 
-const URL = "http://localhost:5000/book/";
+const URL = `${process.env.REACT_APP_API_URL}/book/`;
 
 const fetchBooks = async () => {
   try {

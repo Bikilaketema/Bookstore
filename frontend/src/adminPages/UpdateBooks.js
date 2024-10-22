@@ -11,7 +11,7 @@ const UpdateBook = () => {
   useEffect(() => {
     const fetchHandler = async () => {
       await axios
-        .get(`http://localhost:5000/book/${id}`)
+        .get(`${process.env.REACT_APP_API_URL}/book/${id}`)
         .then((res) => res.data)
         .then((data) => setInputs(data.book));
     };
@@ -20,7 +20,7 @@ const UpdateBook = () => {
 
   const sendRequest = async () => {
     await axios
-      .put(`http://localhost:5000/admin/updatebook/${id}`, {
+      .put(`${process.env.REACT_APP_API_URL}/admin/updatebook/${id}`, {
         title: String(inputs.title),
         author: String(inputs.author),
         description: String(inputs.description),
@@ -45,76 +45,87 @@ const UpdateBook = () => {
   };
 
   return (
-    <div style={{paddingTop:'2%',paddingBottom:'2%',paddingRight:'15%',paddingLeft:'15%'}}>
+    <div
+      style={{
+        paddingTop: "2%",
+        paddingBottom: "2%",
+        paddingRight: "15%",
+        paddingLeft: "15%",
+      }}
+    >
       {inputs && (
         <Form onSubmit={handleSubmit}>
-        <Form.Group>
-          <Form.Label>Title</Form.Label>
-          <Form.Control
-            type="text"
-            value={inputs.title}
-            onChange={handleChange}
-            name="title"
-          />
-        </Form.Group>
-        <Form.Group>
-          <Form.Label>Author</Form.Label>
-          <Form.Control
-            type="text"
-            value={inputs.author}
-            onChange={handleChange}
-            name="author"
-          />
-        </Form.Group>
-        <Form.Group>
-          <Form.Label>Description</Form.Label>
-          <Form.Control
-            as="textarea"
-            value={inputs.description}
-            onChange={handleChange}
-            name="description"
-          />
-        </Form.Group>
-        <Form.Group>
-          <Form.Label>Price</Form.Label>
-          <Form.Control
-            type="number"
-            value={inputs.price}
-            onChange={handleChange}
-            name="price"
-          />
-        </Form.Group>
-        <Form.Group>
-          <Form.Label>coverPage</Form.Label>
-          <Form.Control
-            type="text"
-            value={inputs.coverPage}
-            onChange={handleChange}
-            name="coverPage"
-          />
-        </Form.Group>
-        <Form.Group>
-        <Form.Label>Genre</Form.Label>
-        <Form.Control
-          type="text"
-          value={inputs.genre}
-          onChange={handleChange}
-          name="genre"
-        />
-        </Form.Group>
-        <Form.Group>
-        <Form.Label>PDF Link</Form.Label>
-        <Form.Control
-          type="text"
-          value={inputs.pdfLink}
-          onChange={handleChange}
-          name="pdfLink"
-        />
-        </Form.Group>
-        <Button variant="primary" type="submit" style={{marginTop:'5%',width:'100%',height:'7vh'}}>
-          Update Book
-        </Button>
-      </Form>
+          <Form.Group>
+            <Form.Label>Title</Form.Label>
+            <Form.Control
+              type="text"
+              value={inputs.title}
+              onChange={handleChange}
+              name="title"
+            />
+          </Form.Group>
+          <Form.Group>
+            <Form.Label>Author</Form.Label>
+            <Form.Control
+              type="text"
+              value={inputs.author}
+              onChange={handleChange}
+              name="author"
+            />
+          </Form.Group>
+          <Form.Group>
+            <Form.Label>Description</Form.Label>
+            <Form.Control
+              as="textarea"
+              value={inputs.description}
+              onChange={handleChange}
+              name="description"
+            />
+          </Form.Group>
+          <Form.Group>
+            <Form.Label>Price</Form.Label>
+            <Form.Control
+              type="number"
+              value={inputs.price}
+              onChange={handleChange}
+              name="price"
+            />
+          </Form.Group>
+          <Form.Group>
+            <Form.Label>coverPage</Form.Label>
+            <Form.Control
+              type="text"
+              value={inputs.coverPage}
+              onChange={handleChange}
+              name="coverPage"
+            />
+          </Form.Group>
+          <Form.Group>
+            <Form.Label>Genre</Form.Label>
+            <Form.Control
+              type="text"
+              value={inputs.genre}
+              onChange={handleChange}
+              name="genre"
+            />
+          </Form.Group>
+          <Form.Group>
+            <Form.Label>PDF Link</Form.Label>
+            <Form.Control
+              type="text"
+              value={inputs.pdfLink}
+              onChange={handleChange}
+              name="pdfLink"
+            />
+          </Form.Group>
+          <Button
+            variant="primary"
+            type="submit"
+            style={{ marginTop: "5%", width: "100%", height: "7vh" }}
+          >
+            Update Book
+          </Button>
+        </Form>
       )}
     </div>
   );

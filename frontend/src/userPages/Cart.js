@@ -29,7 +29,9 @@ const Cart = () => {
         const decoded = jwt_decode(userToken);
         const userId = decoded.id;
 
-        const response = await axios.get(`http://localhost:5000/cart/${userId}`);
+        const response = await axios.get(
+          `${process.env.REACT_APP_API_URL}/cart/${userId}`
+        );
         const data = response.data;
 
         if (data.error) {
@@ -57,7 +59,9 @@ const Cart = () => {
       const decoded = jwt_decode(userToken);
       const userId = decoded.id;
 
-      const response = await axios.delete(`http://localhost:5000/cart/${userId}/${bookId}`);
+      const response = await axios.delete(
+        `${process.env.REACT_APP_API_URL}/cart/${userId}/${bookId}`
+      );
       const updatedCart = response.data;
 
       setCartItems(updatedCart.items);
@@ -68,7 +72,10 @@ const Cart = () => {
   };
 
   const calculateTotalPrice = () => {
-    return cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
+    return cartItems.reduce(
+      (total, item) => total + item.price * item.quantity,
+      0
+    );
   };
 
   const navigate = useNavigate();
@@ -82,15 +89,28 @@ const Cart = () => {
       <h4 className="text-center mb-4">Cart</h4>
       <Row>
         <Col xs={12} lg={12}>
-          <Card style={{ padding: "1%", borderRadius: "10px", boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.2)" }}>
+          <Card
+            style={{
+              padding: "1%",
+              borderRadius: "10px",
+              boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.2)",
+            }}
+          >
             {loading ? (
               <p>Loading cart items...</p>
             ) : (
               <>
                 {cartItems.length === 0 ? (
-                  <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-    <h4 style={{ marginBottom: '10%' }}>Your cart is empty!</h4>
-  </div>
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    <h4 style={{ marginBottom: "10%" }}>Your cart is empty!</h4>
+                  </div>
                 ) : (
                   <div>
                     {cartItems.map((item) => (
@@ -108,21 +128,44 @@ const Cart = () => {
                             className="mr-3"
                             style={{ borderRadius: "5px" }}
                           />
-                          <div className="flex-grow-1" style={{ marginLeft: "2%" }}>
+                          <div
+                            className="flex-grow-1"
+                            style={{ marginLeft: "2%" }}
+                          >
                             <p
                               className="font-weight-bold"
-                              style={{ fontSize: "1.2rem", margin: 0, maxWidth: "70%", whiteSpace: "nowrap", fontWeight: "bold" }}
+                              style={{
+                                fontSize: "1.2rem",
+                                margin: 0,
+                                maxWidth: "70%",
+                                whiteSpace: "nowrap",
+                                fontWeight: "bold",
+                              }}
                             >
-                              {item.name.length > 80 ? `${item.name.substring(0, 80)}...` : item.name}
+                              {item.name.length > 80
+                                ? `${item.name.substring(0, 80)}...`
+                                : item.name}
                             </p>
-                            <p style={{ fontSize: "1rem" }}>Price: ETB {item.price}</p>
-                            <div style={{ maxHeight: "60px", overflow: "hidden", fontSize: "1rem" }}>
+                            <p style={{ fontSize: "1rem" }}>
+                              Price: ETB {item.price}
+                            </p>
+                            <div
+                              style={{
+                                maxHeight: "60px",
+                                overflow: "hidden",
+                                fontSize: "1rem",
+                              }}
+                            >
                               <p>Quantity: {item.quantity}</p>
                             </div>
                           </div>
                         </div>
                         <div>
-                          <Button variant="danger" className="btn-sm" onClick={() => removeItem(item.bookId)}>
+                          <Button
+                            variant="danger"
+                            className="btn-sm"
+                            onClick={() => removeItem(item.bookId)}
+                          >
                             Remove
                           </Button>
                         </div>

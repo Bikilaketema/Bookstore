@@ -1,25 +1,25 @@
-import React, { useState } from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import { Container, Form, Button, Row, Col } from 'react-bootstrap';
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useState } from "react";
+import "bootstrap/dist/css/bootstrap.min.css";
+import { Container, Form, Button, Row, Col } from "react-bootstrap";
+import { Link, useNavigate } from "react-router-dom";
 
 const labelStyle = {
-  fontSize: '20px',
+  fontSize: "20px",
 };
 
 function Signup() {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
-    email: '',
-    username: '',
-    password: '',
-    confirmPassword: '',
+    firstName: "",
+    lastName: "",
+    email: "",
+    username: "",
+    password: "",
+    confirmPassword: "",
   });
 
-  const [error, setError] = useState('');
-  const [successMessage, setSuccessMessage] = useState('');
+  const [error, setError] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
 
   const handleChange = (e) => {
     const { id, value } = e.target;
@@ -31,28 +31,31 @@ function Signup() {
 
   const handleLogin = async () => {
     try {
-      const response = await fetch('http://localhost:5000/user/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          identifier: formData.email, // Allows using email or username to log in
-          password: formData.password,
-        }),
-      });
+      const response = await fetch(
+        `${process.env.REACT_APP_API_URL}/user/login`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            identifier: formData.email, // Allows using email or username to log in
+            password: formData.password,
+          }),
+        }
+      );
 
       const data = await response.json();
 
       if (response.status === 200) {
         // Successful login
-        localStorage.setItem('userToken', data.token); // Save the JWT in local storage
-        navigate('/dashboard');
+        localStorage.setItem("userToken", data.token); // Save the JWT in local storage
+        navigate("/dashboard");
       } else {
         setError(data.message);
       }
     } catch (error) {
-      console.error('Login error:', error);
+      console.error("Login error:", error);
     }
   };
 
@@ -60,45 +63,48 @@ function Signup() {
     e.preventDefault();
 
     try {
-      const response = await fetch('http://localhost:5000/user/signup', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
+      const response = await fetch(
+        `${process.env.REACT_APP_API_URL}/user/signup`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        }
+      );
 
       const data = await response.json();
 
       if (response.status === 201) {
         // Successful registration
-        setSuccessMessage('Account created successfully. Logging in...');
+        setSuccessMessage("Account created successfully. Logging in...");
         // Automatically log in the user
         await handleLogin();
       } else {
         setError(data.message);
       }
     } catch (error) {
-      console.error('Signup error:', error);
+      console.error("Signup error:", error);
     }
   };
 
   return (
     <Container
       style={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        backgroundColor: 'skyblue',
-        marginTop: '3%',
-        borderRadius: '20px',
-        padding: '20px',
-        width: '100%',
-        height: '70vh',
-        overflowY: 'auto',
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        backgroundColor: "skyblue",
+        marginTop: "3%",
+        borderRadius: "20px",
+        padding: "20px",
+        width: "100%",
+        height: "70vh",
+        overflowY: "auto",
       }}
     >
-      <h1 style={{ marginBottom: '2%' }}>Sign up</h1>
+      <h1 style={{ marginBottom: "2%" }}>Sign up</h1>
       {successMessage && <div className="text-success">{successMessage}</div>}
       <Form onSubmit={handleSubmit}>
         <Row>
@@ -175,7 +181,11 @@ function Signup() {
         </Row>
         {error && <div className="text-danger">{error}</div>}
         <div className="text-center">
-          <Button variant="primary" type="submit" style={{ color: 'white', marginTop: '2%', marginBottom: '2%' }}>
+          <Button
+            variant="primary"
+            type="submit"
+            style={{ color: "white", marginTop: "2%", marginBottom: "2%" }}
+          >
             Sign up
           </Button>
         </div>
@@ -183,14 +193,14 @@ function Signup() {
 
       <div
         style={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
         }}
       >
         <p>Already have an account?</p>
-        <Button variant="secondary" style={{ marginBottom: '3%' }}>
-          <Link to="/login" style={{ color: 'white', textDecoration: 'none' }}>
+        <Button variant="secondary" style={{ marginBottom: "3%" }}>
+          <Link to="/login" style={{ color: "white", textDecoration: "none" }}>
             Log in
           </Link>
         </Button>

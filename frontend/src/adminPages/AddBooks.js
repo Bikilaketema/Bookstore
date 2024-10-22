@@ -7,14 +7,13 @@ const AddBook = () => {
   const history = useNavigate();
   const [inputs, setInputs] = useState({
     title: "",
-    author:"",
-    genre:"",
-    coverPage:"",
-    price:"",
-    description:"",
+    author: "",
+    genre: "",
+    coverPage: "",
+    price: "",
+    description: "",
     pdfLink: "",
   });
-
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -25,14 +24,14 @@ const AddBook = () => {
   };
 
   const sendRequest = async () => {
-    await axios.post("http://localhost:5000/admin/addbook", {
+    await axios.post(`${process.env.REACT_APP_API_URL}/admin/addbook`, {
       title: String(inputs.title),
       author: String(inputs.author),
       description: String(inputs.description),
       price: Number(inputs.price),
       coverPage: String(inputs.coverPage),
       genre: String(inputs.genre),
-      pdfLink: String(inputs.pdfLink)
+      pdfLink: String(inputs.pdfLink),
     });
   };
 
@@ -61,7 +60,7 @@ const AddBook = () => {
       <Row className="justify-content-center mt-5">
         <Col xs={12} md={10}>
           <Form onSubmit={handleSubmit}>
-          {error && <div className="text-danger">{error}</div>}
+            {error && <div className="text-danger">{error}</div>}
             <Form.Group>
               <Form.Label>Title</Form.Label>
               <Form.Control
@@ -108,24 +107,33 @@ const AddBook = () => {
               />
             </Form.Group>
             <Form.Group>
-            <Form.Label>Genre</Form.Label>
-            <Form.Control
-              type="text"
-              value={inputs.genre}
-              onChange={handleChange}
-              name="genre"
-            />
+              <Form.Label>Genre</Form.Label>
+              <Form.Control
+                type="text"
+                value={inputs.genre}
+                onChange={handleChange}
+                name="genre"
+              />
             </Form.Group>
             <Form.Group>
-            <Form.Label>PDF Link</Form.Label>
-            <Form.Control
-              type="text"
-              value={inputs.pdfLink}
-              onChange={handleChange}
-              name="pdfLink"
-            />
+              <Form.Label>PDF Link</Form.Label>
+              <Form.Control
+                type="text"
+                value={inputs.pdfLink}
+                onChange={handleChange}
+                name="pdfLink"
+              />
             </Form.Group>
-            <Button variant="primary" type="submit" style={{marginTop:'5%',marginBottom:'5%',width:'100%',height:'7vh'}}>
+            <Button
+              variant="primary"
+              type="submit"
+              style={{
+                marginTop: "5%",
+                marginBottom: "5%",
+                width: "100%",
+                height: "7vh",
+              }}
+            >
               Add Book
             </Button>
           </Form>

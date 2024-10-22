@@ -11,7 +11,9 @@ const Book = (props) => {
 
   const deleteHandler = async () => {
     try {
-      await axios.delete(`http://localhost:5000/admin/deletebook/${_id}`);
+      await axios.delete(
+        `${process.env.REACT_APP_API_URL}/admin/deletebook/${_id}`
+      );
       setIsDeleted(true);
       history("/admin/");
     } catch (error) {
@@ -21,7 +23,9 @@ const Book = (props) => {
 
   const addBookToCart = async () => {
     const userToken = localStorage.getItem("userToken");
-    const userId = userToken ? JSON.parse(atob(userToken.split(".")[1])).id : null;
+    const userId = userToken
+      ? JSON.parse(atob(userToken.split(".")[1])).id
+      : null;
 
     if (!userId) {
       console.error("User is not authenticated");
@@ -29,7 +33,7 @@ const Book = (props) => {
     }
 
     try {
-      await axios.post(`http://localhost:5000/cart/${userId}`, {
+      await axios.post(`${process.env.REACT_APP_API_URL}/cart/${userId}`, {
         productId: _id,
         quantity: 1,
       });
@@ -46,15 +50,25 @@ const Book = (props) => {
 
   return shouldDisplayBook ? (
     <Card className="book-card">
-      <Card.Img src={coverPage} alt={"Book cover img"} style={{width:'100%',height:'300px'}} />
+      <Card.Img
+        src={coverPage}
+        alt={"Book cover img"}
+        style={{ width: "100%", height: "300px" }}
+      />
       <Card.Body style={{ display: "flex", flexDirection: "column" }}>
         <Card.Text>By {author}</Card.Text>
-        <Card.Title>{title.length > 15 ? title.substring(0, 15) + '...' : title}</Card.Title>
+        <Card.Title>
+          {title.length > 15 ? title.substring(0, 15) + "..." : title}
+        </Card.Title>
         <Card.Text>Genre: {genre}</Card.Text>
         <Card.Title>Price: ETB {price}</Card.Title>
 
         {showAlert && (
-          <Alert variant="success" onClose={() => setShowAlert(false)} dismissible>
+          <Alert
+            variant="success"
+            onClose={() => setShowAlert(false)}
+            dismissible
+          >
             Product added to cart!
           </Alert>
         )}
@@ -70,13 +84,22 @@ const Book = (props) => {
             >
               Update
             </Button>
-            <Button variant="danger" onClick={deleteHandler} className="mt-auto">
+            <Button
+              variant="danger"
+              onClick={deleteHandler}
+              className="mt-auto"
+            >
               Delete
             </Button>
           </>
         ) : (
           <>
-            <Button variant="primary" className="mt-auto" style={{ marginBottom: "2%" }} onClick={addBookToCart}>
+            <Button
+              variant="primary"
+              className="mt-auto"
+              style={{ marginBottom: "2%" }}
+              onClick={addBookToCart}
+            >
               Add to cart
             </Button>
 

@@ -1,25 +1,25 @@
-import React, { useState } from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import { Container, Form, Button, Row, Col } from 'react-bootstrap';
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useState } from "react";
+import "bootstrap/dist/css/bootstrap.min.css";
+import { Container, Form, Button, Row, Col } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 
 const labelStyle = {
-  fontSize: '20px',
+  fontSize: "20px",
 };
 
 function AddUser() {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
-    email: '',
-    username: '',
-    password: '',
-    confirmPassword: '',
+    firstName: "",
+    lastName: "",
+    email: "",
+    username: "",
+    password: "",
+    confirmPassword: "",
   });
 
-  const [error, setError] = useState('');
-  const [successMessage, setSuccessMessage] = useState('');
+  const [error, setError] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
 
   const handleChange = (e) => {
     const { id, value } = e.target;
@@ -29,49 +29,51 @@ function AddUser() {
     }));
   };
 
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      const response = await fetch('http://localhost:5000/admin/adduser', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
+      const response = await fetch(
+        `${process.env.REACT_APP_API_URL}/admin/adduser`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        }
+      );
 
       const data = await response.json();
-      navigate('/admin/users')
+      navigate("/admin/users");
 
       if (response.status === 201) {
         // Successful registration
-        setSuccessMessage('Account created successfully.');
+        setSuccessMessage("Account created successfully.");
       } else {
         setError(data.message);
       }
     } catch (error) {
-      console.error('Signup error:', error);
+      console.error("Signup error:", error);
     }
   };
 
   return (
     <Container
       style={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        backgroundColor: 'skyblue',
-        marginTop: '3%',
-        borderRadius: '20px',
-        padding: '20px',
-        width: '100%',
-        height: '70vh',
-        overflowY: 'auto',
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        backgroundColor: "skyblue",
+        marginTop: "3%",
+        borderRadius: "20px",
+        padding: "20px",
+        width: "100%",
+        height: "70vh",
+        overflowY: "auto",
       }}
     >
-      <h1 style={{ marginBottom: '2%' }}>Insert User Details</h1>
+      <h1 style={{ marginBottom: "2%" }}>Insert User Details</h1>
       {successMessage && <div className="text-success">{successMessage}</div>}
       <Form onSubmit={handleSubmit}>
         <Row>
@@ -148,7 +150,11 @@ function AddUser() {
         </Row>
         {error && <div className="text-danger">{error}</div>}
         <div className="text-center">
-          <Button variant="primary" type="submit" style={{ color: 'white', marginTop: '2%', marginBottom: '2%' }}>
+          <Button
+            variant="primary"
+            type="submit"
+            style={{ color: "white", marginTop: "2%", marginBottom: "2%" }}
+          >
             Add User
           </Button>
         </div>
