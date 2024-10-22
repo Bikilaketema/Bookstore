@@ -1,27 +1,74 @@
 const catchAsyncErrors = require("../middleware/catchAsyncError");
 const User = require("../models/userModel");
-const sendToken = require("../utils/jswToken");
-const bcrypt = require("bcrypt");
+const axios = require("axios");
 const multer = require("multer");
-const path = require("path");
 
-// Set storage engine
-const storage = multer.diskStorage({
-  destination: "./public/uploads/",
-  filename: function (req, file, cb) {
-    cb(
-      null,
-      file.fieldname + "-" + Date.now() + path.extname(file.originalname)
-    );
-  },
-});
+// Set up Multer for file uploads
+const upload = multer({ storage: multer.memoryStorage() });
 
-// Initialize upload
-const upload = multer({
-  storage: storage,
-  limits: { fileSize: 10000000 }, // Limit file size to 10MB
-}).single("file");
+// Upload User Profile Picture
+const uploadProfilePicture = [
+  upload.single("file"), // Middleware to handle single file uploads
+  catchAsyncErrors(async (req, res) => {
+    const id = req.params.id;
+    let user = await User.findById(req.user.id); // Fetch user based on authenticated user id
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
+    }
 
+    // Check if a file was uploaded
+    if (!req.file) {
+      return res.status(400).json({
+        success: false,
+        message: "No file uploaded",
+      });
+    }
+
+    try {
+      const profilePictureUrl = await uploadFileToImgur(req.file);
+
+      // Update user's profile picture in the database
+      user.profilePicture = profilePictureUrl;
+      await user.save();
+
+      return res.status(200).json({
+        success: true,
+        user,
+      });
+    } catch (error) {
+      console.error("Error uploading to Imgur:", error);
+      return res.status(500).json({
+        success: false,
+        message: "Error uploading profile picture",
+        error: error.message,
+      });
+    }
+  }),
+];
+
+// Function to upload file to Imgur
+const uploadFileToImgur = async (file) => {
+  const url = "https://api.imgur.com/3/image";
+  const formData = new FormData();
+
+  formData.append("image", file.buffer.toString("base64")); // Convert file buffer to base64 string
+
+  try {
+    const response = await axios.post(url, formData, {
+      headers: {
+        Authorization: `Client-ID YOUR_IMGUR_CLIENT_ID`, // Replace with your Imgur Client ID
+        "Content-Type": "multipart/form-data",
+      },
+    });
+
+    return response.data.data.link; // Return the image link
+  } catch (error) {
+    throw new Error("Failed to upload image to Imgur");
+  }
+};
 
 // Register User
 const signUser = catchAsyncErrors(async (req, res, next) => {
@@ -158,12 +205,16 @@ const updateProfile = catchAsyncErrors(async (req, res) => {
   }
 
   try {
-    user = await User.findByIdAndUpdate(id, {
-      firstName,
-      lastName,
-      email,
-      username,
-    }, { new: true });
+    user = await User.findByIdAndUpdate(
+      id,
+      {
+        firstName,
+        lastName,
+        email,
+        username,
+      },
+      { new: true }
+    );
   } catch (err) {
     console.log(err);
   }
@@ -188,59 +239,18 @@ const deleteProfile = catchAsyncErrors(async (req, res) => {
       message: "User not found",
     });
   }
-  
+
   try {
     user = await User.findByIdAndRemove(id);
   } catch (err) {
-    console.log(err)
+    console.log(err);
   }
-  
+
   res.status(200).json({
     success: true,
     message: "User profile deleted successfully",
   });
 });
-
-// Upload User Profile Picture
-const uploadProfilePicture = catchAsyncErrors(async (req, res) => {
-  const id = req.params.id;
-  let user = await User.findById(req.user.id);
-  if (!user) {
-    return res.status(404).json({
-      success: false,
-      message: "User not found",
-    });
-  }
-
-  // Upload user profile picture here
-  // You can access the uploaded file in req.file
-  const profilePictureUrl = await uploadFile(req); 
-
-  // Update user's profile picture in the database
-  user.profilePicture = profilePictureUrl;
-  await user.save();
-
-  return res.status(200).json({
-    success: true,
-    user,
-  });
-});
-
-const uploadFile = (req) => {
-  return new Promise((resolve, reject) => {
-    upload(req, {}, function (err) {
-      if (err instanceof multer.MulterError) {
-        reject(err);
-      } else if (err) {
-        reject(err);
-      }
-      
-      // Everything went fine and file is uploaded
-      // We will assume that our upload function will store the uploaded files in a directory named 'uploads' in the public directory and it will preserve the original name of the uploaded files.
-      resolve('/uploads/' + req.file.filename);
-    })
-  })
-};
 
 const updatePassword = catchAsyncErrors(async (req, res) => {
   const id = req.params.id;
@@ -271,7 +281,7 @@ const updatePassword = catchAsyncErrors(async (req, res) => {
   try {
     // Compare the provided password with the stored password
     const isPasswordMatch = await bcrypt.compare(password, user.password);
-    
+
     if (!isPasswordMatch) {
       return res.status(401).json({
         success: false,
@@ -301,7 +311,6 @@ const updatePassword = catchAsyncErrors(async (req, res) => {
     user,
   });
 });
-
 
 module.exports = {
   getProfile,
