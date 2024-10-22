@@ -19,6 +19,7 @@ import UpdateBooks from './adminPages/UpdateBooks';
 import Checkout from './userPages/Checkout';
 import { useLocation } from 'react-router-dom';
 import jwt_decode from 'jwt-decode';
+import './index.css'; 
 
 export default function App() {
   const isUserAuthenticated = () => {
