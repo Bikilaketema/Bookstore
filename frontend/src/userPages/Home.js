@@ -29,42 +29,26 @@ const Home = () => {
   };
 
   return (
-    <div className="hero py-32 bg-gray-700" style={divStyle}>
-      <div className="hero-content grid md:grid-cols-2 gap-8">
-        <div className="order-2">{/* Content for the left side, if any */}</div>
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            flexDirection: "column",
-            justifyContent: "center",
-            textAlign: "center",
-            backgroundColor: "rgba(0, 0, 0, 0.8)",
-            width: "100%",
-            height: "100vh",
-          }}
-        >
-          <h1 className="text-2xl italic leading-normal text-white">
-            Welcome to BB Online Book Store
-          </h1>
-          <h5
-            className="py-6 text-gray-300"
-            style={{
-              align: "center", // This should be 'textAlign' instead of 'align'
-              color: "white",
-              marginBottom: "5%",
-            }}
-          >
-            With us, you can shop online & help save your street at the same
-            time. If you're looking for great value second-hand books, then
-            World of Books is the place for you. As you may already know, we
-            aren't like other online bookstores.
-          </h5>
-          <Button className="btn btn-primary mt-4" onClick={handleExploreClick}>
-            Explore Books
-          </Button>
-        </div>
-      </div>
+    <div
+      className="flex flex-col justify-center items-center p-8 bg-slate-500 min-h-screen gap-8"
+      style={{
+        backgroundImage: `url('hero.jpg')`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}
+    >
+      <h1 className="text-2xl italic leading-normal text-white">
+        Welcome to BB Online Book Store
+      </h1>
+      <h5 className="text-2xl text-gray-300">
+        With us, you can shop online & help save your street at the same time.
+        If you're looking for great value second-hand books, then World of Books
+        is the place for you. As you may already know, we aren't like other
+        online bookstores.
+      </h5>
+      <Button className="btn btn-primary mt-4" onClick={handleExploreClick}>
+        Explore Books
+      </Button>
     </div>
   );
 };
