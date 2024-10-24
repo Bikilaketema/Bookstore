@@ -1,35 +1,47 @@
-import React, { useEffect, useState } from 'react';
-import { Outlet, useLocation, useNavigate } from 'react-router-dom';
-import { Button } from 'react-bootstrap';
-import { FaShoppingCart, FaInfoCircle, FaHome, FaTachometerAlt, FaKey, FaBook, FaPlusCircle, FaSignOutAlt, FaUser, FaEnvelope } from 'react-icons/fa';
-import jwt_decode from 'jwt-decode';
+import React, { useEffect, useState } from "react";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
+import { Button } from "react-bootstrap";
+import { NavButton } from "../styledComponents/navButton";
+import {
+  FaShoppingCart,
+  FaInfoCircle,
+  FaHome,
+  FaTachometerAlt,
+  FaKey,
+  FaBook,
+  FaPlusCircle,
+  FaSignOutAlt,
+  FaUser,
+  FaEnvelope,
+} from "react-icons/fa";
+import jwt_decode from "jwt-decode";
 
 const navstyle = {
-  backgroundColor: 'skyblue',
-  display: 'flex',
-  alignItems: 'center'
-}
+  backgroundColor: "skyblue",
+  display: "flex",
+  alignItems: "center",
+};
 
 const ulstyle = {
-  display: 'flex',
-  alignItems: 'center'
-}
+  display: "flex",
+  alignItems: "center",
+};
 
 const listyle = {
-  margin: '30px',
-  listStyleType: 'none'
-}
+  margin: "30px",
+  listStyleType: "none",
+};
 
 const Header = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
   const handleHomeClick = () => {
-    navigate('/');
+    navigate("/");
   };
 
   const handleDashboardClick = () => {
-    navigate('/dashboard');
+    navigate("/dashboard");
   };
 
   const handleProfileClick = () => {
@@ -37,53 +49,51 @@ const Header = () => {
   };
 
   const handleLoginClick = () => {
-    navigate('/login');
+    navigate("/login");
   };
 
   const handleAboutClick = () => {
-    navigate('/about');
+    navigate("/about");
   };
 
   const handleCartClick = () => {
-    navigate('/cart');
+    navigate("/cart");
   };
 
   const handleBooksClick = () => {
-    navigate('/books');
+    navigate("/books");
   };
 
   const handleAdminsHomeClick = () => {
-    navigate('/admin/');
+    navigate("/admin/");
   };
 
   const handleAddBooksClick = () => {
-    navigate('/admin/books');
+    navigate("/admin/books");
   };
 
   const handleUsersClick = () => {
-    navigate('/admin/users');
+    navigate("/admin/users");
   };
 
-  const isAdminRoute = location.pathname.startsWith('/admin');
-  const isUserAuthenticated = !!localStorage.getItem('userToken'); 
-  const isAdminAuthenticated = !!localStorage.getItem('adminToken'); 
+  const isAdminRoute = location.pathname.startsWith("/admin");
+  const isUserAuthenticated = !!localStorage.getItem("userToken");
+  const isAdminAuthenticated = !!localStorage.getItem("adminToken");
 
   const handleUserLogout = () => {
-   
-    localStorage.removeItem('userToken'); 
+    localStorage.removeItem("userToken");
 
-    navigate('/login'); 
+    navigate("/login");
   };
 
-  
   const [adminInfo, setAdminInfo] = useState({
-    firstName: '',
-    lastName: '',
-    email: ''
+    firstName: "",
+    lastName: "",
+    email: "",
   });
 
   const fetchAdminInfo = () => {
-    const adminToken = localStorage.getItem('adminToken');
+    const adminToken = localStorage.getItem("adminToken");
 
     if (adminToken) {
       const decodedAdmin = jwt_decode(adminToken);
@@ -91,54 +101,45 @@ const Header = () => {
       setAdminInfo({
         firstName: decodedAdmin.firstName,
         lastName: decodedAdmin.lastName,
-        email: decodedAdmin.email
+        email: decodedAdmin.email,
       });
     }
   };
 
-  useEffect(() => {
-    
-  }, []);
+  useEffect(() => {}, []);
 
   useEffect(() => {
     fetchAdminInfo();
-  }, [isAdminAuthenticated]); 
-
+  }, [isAdminAuthenticated]);
 
   const handleAdminLogout = () => {
-    
-    localStorage.removeItem('adminToken');
-    localStorage.removeItem('adminName');
-    localStorage.removeItem('adminEmail');
-  
-    navigate('/admin/login'); 
+    localStorage.removeItem("adminToken");
+    localStorage.removeItem("adminName");
+    localStorage.removeItem("adminEmail");
+
+    navigate("/admin/login");
   };
-  
+
   return (
     <>
-      <nav style={navstyle}>
-        <ul style={ulstyle}>
-          <li style={listyle}>
+      <nav className="bg-blue-400 p-2 flex flex-row items-center">
+        <ul className="gap-8 flex flex-row p-2 items-center">
+          <li>
             <img
               src="/BBLogo.jpg"
               alt="Logo"
-              style={{
-                width: "50px",
-                borderRadius: "10px",
-                marginLeft: "5px",
-                alignSelf: "center",
-              }}
+              className="w-[50px] h-[50px] rounded-xl"
             />
           </li>
 
           {isAdminAuthenticated && isAdminRoute && (
             <>
-              <li style={listyle}>
-                <Button onClick={handleAdminsHomeClick}>
+              <li className="bg-blue-500 flex rounded-xl">
+                <button onClick={handleAdminsHomeClick}>
                   {" "}
                   <FaHome />
                   Admin Home
-                </Button>
+                </button>
               </li>
 
               <li style={listyle}>
@@ -213,26 +214,22 @@ const Header = () => {
 
           {!isAdminRoute && !isUserAuthenticated && (
             <>
-              <li style={listyle}>
-                <Button onClick={handleHomeClick}>
-                  {" "}
-                  <FaHome /> Home
-                </Button>
-              </li>
-
-              <li style={listyle}>
-                <Button onClick={handleAboutClick}>
-                  {" "}
-                  <FaInfoCircle /> About
-                </Button>
-              </li>
-
-              <li style={listyle}>
-                <Button onClick={handleLoginClick}>
-                  {" "}
-                  <FaKey /> Log in
-                </Button>
-              </li>
+              <NavButton
+                onClick={handleHomeClick}
+                lick
+                text="Home"
+                icon={<FaHome />}
+              />
+              <NavButton
+                onClick={handleAboutClick}
+                text="About"
+                icon={<FaInfoCircle />}
+              />
+              <NavButton
+                onClick={handleLoginClick}
+                text="Log in"
+                icon={<FaKey />}
+              />
             </>
           )}
 
