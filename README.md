@@ -62,6 +62,7 @@ The BB Online Bookstore web application is built using the following technologie
 - **Axios**: A promise-based HTTP client used for making API requests.
 - **React Router**: A routing library for React.js used for handling client-side navigation.
 - **Bootstrap**: A popular CSS framework used for styling and responsiveness.
+- **Tailwind CSS**: A popular CSS framework for developing responsive web apps easily
 
 ## Installation 👨‍💻
 
