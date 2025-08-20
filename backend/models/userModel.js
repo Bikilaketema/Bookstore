@@ -5,7 +5,7 @@ const bcrypt = require("bcrypt");
 
 const expireTime=process.env.JWT_SECRET_KEY_EXPIRE // 1h
 
-// Define the user schema
+// Define the user schema 
 const userSchema = new mongoose.Schema(
   {
     firstName: {
